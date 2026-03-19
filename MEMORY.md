@@ -2,11 +2,12 @@
 
 Registro cronologico de sessoes e trocas de mensagens deste projeto.
 
-## Politica
+## Contrato de responsabilidade (explicito)
 
-- Cada nova aba/sessao deve iniciar em branch dedicada.
-- Cada troca relevante deve ser registrada.
-- Evitar dados sensiveis; registrar somente o necessario para contexto.
+- Este arquivo (`MEMORY.md`) contem apenas historico de sessoes, decisoes e eventos.
+- Nao definir regras permanentes de operacao aqui.
+- Regras e convencoes do projeto vivem exclusivamente em `AGENTS.md`.
+- Para evitar duplicidade: registrar aqui somente "o que aconteceu", sem repetir "como operar".
 
 ---
 
