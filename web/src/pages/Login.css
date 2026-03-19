@@ -1,0 +1,92 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+}
+
+.login-header {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem 0.25rem;
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand-logo {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 1rem;
+}
+
+.login-card {
+  background-color: var(--surface-color);
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card h1 {
+  font-size: var(--fs-3xl);
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.login-card p {
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  font-size: var(--fs-base);
+}
+
+.login-button-wrapper {
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+  /* Prevent layout shift while iframe loads */
+}
+
+.login-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger-color, #ef4444);
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  font-size: var(--fs-sm);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.login-hint {
+  margin-top: 2rem;
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary, #9ca3af);
+  line-height: 1.5;
+}

@@ -1,0 +1,141 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-out;
+}
+
+.dialog-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dialog-content {
+  background-color: var(--surface-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.95);
+  transition: transform 0.2s ease-out;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dialog-overlay.open .dialog-content {
+  transform: scale(1);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dialog-title {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.dialog-message {
+  font-size: var(--fs-base);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.dialog-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: var(--fs-sm);
+  transition: all 0.2s;
+}
+
+.dialog-btn-cancel {
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+
+.dialog-btn-cancel:hover {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+}
+
+.dialog-btn-confirm {
+  color: white;
+}
+
+/* Theme variations */
+.dialog-alert .dialog-btn-confirm {
+  background-color: var(--warning-color);
+}
+
+.dialog-alert .dialog-btn-confirm:hover {
+  background-color: #d97706;
+  /* darker warning */
+}
+
+.dialog-alert .dialog-icon {
+  color: var(--warning-color);
+}
+
+.dialog-error .dialog-btn-confirm {
+  background-color: var(--danger-color);
+}
+
+.dialog-error .dialog-btn-confirm:hover {
+  background-color: #dc2626;
+  /* darker danger */
+}
+
+.dialog-error .dialog-icon {
+  color: var(--danger-color);
+}
+
+.dialog-info .dialog-btn-confirm {
+  background-color: var(--primary-color);
+}
+
+.dialog-info .dialog-btn-confirm:hover {
+  background-color: var(--primary-hover);
+}
+
+.dialog-info .dialog-icon {
+  color: var(--primary-color);
+}
+
+.dialog-success .dialog-btn-confirm {
+  background-color: var(--success-color);
+}
+
+.dialog-success .dialog-btn-confirm:hover {
+  background-color: #059669;
+  /* tailwind emarald-600 equivalent */
+}
+
+.dialog-success .dialog-icon {
+  color: var(--success-color);
+}
