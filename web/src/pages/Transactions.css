@@ -127,6 +127,16 @@
   color: var(--text-secondary);
 }
 
+.tx-date-double {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tx-date-line {
+  cursor: default;
+}
+
 .tx-who {
   font-size: var(--fs-sm);
   color: var(--text-secondary);

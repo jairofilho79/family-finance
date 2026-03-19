@@ -35,6 +35,7 @@ interface SortMode {
 }
 
 const SORT_STORAGE_KEY = "transactions.sortMode";
+const SORT_USER_SET_KEY = "transactions.sortModeUserSet";
 
 const SORT_CYCLE: SortMode[] = [
   { criterion: "purchaseDate", direction: "desc" },
@@ -81,6 +82,13 @@ const getPurchaseTimestamp = (t: Transaction) =>
 // e caso contrário pela data a pagar (`due_date`).
 const getPaymentTimestamp = (t: Transaction) =>
   (t.paid_at ?? t.due_date ?? t.date ?? 0) as number;
+
+const formatPtBrDate = (timestamp: number | null | undefined) => {
+  if (typeof timestamp !== "number" || Number.isNaN(timestamp) || timestamp <= 0) {
+    return "";
+  }
+  return new Date(timestamp).toLocaleDateString("pt-BR");
+};
 
 const compareTransactions = (
   a: Transaction,
@@ -129,6 +137,11 @@ const Transactions = () => {
   const [sortMode, setSortMode] = useState<SortMode>(() => {
     if (typeof window === "undefined") return DEFAULT_SORT_MODE;
     try {
+      const userSet =
+        window.localStorage.getItem(SORT_USER_SET_KEY) === "true";
+
+      if (!userSet) return DEFAULT_SORT_MODE;
+
       return parseSortMode(window.localStorage.getItem(SORT_STORAGE_KEY));
     } catch {
       return DEFAULT_SORT_MODE;
@@ -255,6 +268,14 @@ const Transactions = () => {
       (mode) => sortModeToKey(mode) === sortModeToKey(sortMode),
     );
     const nextIndex = (currentIndex + 1) % SORT_CYCLE.length;
+
+    // Marca que o usuário escolheu um modo manualmente.
+    try {
+      window.localStorage.setItem(SORT_USER_SET_KEY, "true");
+    } catch {
+      // ignore localStorage errors
+    }
+
     setSortMode(SORT_CYCLE[nextIndex]);
   };
   const renderTxItem = (t: Transaction, overrideOwe?: boolean) => {
@@ -274,6 +295,9 @@ const Transactions = () => {
         subRootStatus = root.status;
       }
     }
+
+    const purchaseDateLabel = formatPtBrDate(t.date);
+    const paymentDateLabel = formatPtBrDate(getPaymentTimestamp(t));
 
     return (
       <div
@@ -296,9 +320,24 @@ const Transactions = () => {
                 </span>
               )}
             </h4>
-            <span className="tx-date">
-              {new Date(t.due_date || t.date).toLocaleDateString("pt-BR")}
-            </span>
+            {sortMode.criterion === "purchaseDate" ? (
+              <span className="tx-date" title="Data da compra">
+                {purchaseDateLabel}
+              </span>
+            ) : sortMode.criterion === "paymentDate" ? (
+              <span className="tx-date" title="Data de Pagamento">
+                {paymentDateLabel}
+              </span>
+            ) : (
+              <span className="tx-date tx-date-double">
+                <span className="tx-date-line" title="Data da compra">
+                  {purchaseDateLabel}
+                </span>
+                <span className="tx-date-line" title="Data de Pagamento">
+                  {paymentDateLabel}
+                </span>
+              </span>
+            )}
             <span className="tx-who">
               {isOwe
                 ? `Pagar para ${formatName(otherPerson?.name)}`
