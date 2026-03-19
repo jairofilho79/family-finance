@@ -60,12 +60,16 @@ const parseSortMode = (rawValue: string | null): SortMode => {
 
 const getSortLabel = (mode: SortMode) => {
   if (mode.criterion === "purchaseDate") {
-    return mode.direction === "desc" ? "Compra ↓" : "Compra ↑";
+    return mode.direction === "desc"
+      ? "Compras recentes ↓"
+      : "Compras antigas ↑";
   }
   if (mode.criterion === "paymentDate") {
-    return mode.direction === "desc" ? "Pagamento ↓" : "Pagamento ↑";
+    return mode.direction === "desc"
+      ? "Pagamentos recentes ↓"
+      : "Pagamentos antigos ↑";
   }
-  return mode.direction === "asc" ? "A-Z" : "Z-A";
+  return mode.direction === "asc" ? "Descrição A→Z" : "Descrição Z→A";
 };
 
 // "Compra" deve ordenar pela data da compra (`date`).
