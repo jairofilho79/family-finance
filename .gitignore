@@ -1,0 +1,28 @@
+# macOS / sistema
+.DS_Store
+
+# IDE/editor local
+.idea/
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Variaveis locais / segredos
+.env
+.env.*
+!.env.example
+
+# Dependencias e builds (monorepo local)
+**/node_modules/
+**/dist/
+**/build/
+**/.wrangler/
+
+# Arquivos locais grandes de design/export
+Gemini_Generated_Image_*.png
+WhatsApp Image *.jpeg
