@@ -18,12 +18,96 @@ interface Transaction {
   due_date: number;
   type: string;
   status: string;
+  paid_at?: number | null;
   group_id?: string;
 }
 
 interface UserMap {
   [id: string]: { name: string; picture: string };
 }
+
+type SortCriterion = "purchaseDate" | "paymentDate" | "alphabetical";
+type SortDirection = "asc" | "desc";
+
+interface SortMode {
+  criterion: SortCriterion;
+  direction: SortDirection;
+}
+
+const SORT_STORAGE_KEY = "transactions.sortMode";
+
+const SORT_CYCLE: SortMode[] = [
+  { criterion: "purchaseDate", direction: "desc" },
+  { criterion: "purchaseDate", direction: "asc" },
+  { criterion: "paymentDate", direction: "desc" },
+  { criterion: "paymentDate", direction: "asc" },
+  { criterion: "alphabetical", direction: "asc" },
+  { criterion: "alphabetical", direction: "desc" },
+];
+
+const DEFAULT_SORT_MODE = SORT_CYCLE[0];
+
+const sortModeToKey = (mode: SortMode) =>
+  `${mode.criterion}:${mode.direction}`;
+
+const parseSortMode = (rawValue: string | null): SortMode => {
+  if (!rawValue) return DEFAULT_SORT_MODE;
+  const parsed = SORT_CYCLE.find(
+    (mode) => sortModeToKey(mode) === rawValue,
+  );
+  return parsed || DEFAULT_SORT_MODE;
+};
+
+const getSortLabel = (mode: SortMode) => {
+  if (mode.criterion === "purchaseDate") {
+    return mode.direction === "desc" ? "Compra ↓" : "Compra ↑";
+  }
+  if (mode.criterion === "paymentDate") {
+    return mode.direction === "desc" ? "Pagamento ↓" : "Pagamento ↑";
+  }
+  return mode.direction === "asc" ? "A-Z" : "Z-A";
+};
+
+const getPurchaseTimestamp = (t: Transaction) =>
+  (t.due_date ?? t.date ?? 0) as number;
+
+const compareTransactions = (
+  a: Transaction,
+  b: Transaction,
+  mode: SortMode,
+) => {
+  if (mode.criterion === "purchaseDate") {
+    const diff = getPurchaseTimestamp(a) - getPurchaseTimestamp(b);
+    return mode.direction === "asc" ? diff : -diff;
+  }
+
+  if (mode.criterion === "paymentDate") {
+    const aPaidAt = a.paid_at ?? null;
+    const bPaidAt = b.paid_at ?? null;
+
+    // Keep unpaid entries at the end in both directions.
+    if (aPaidAt === null && bPaidAt !== null) return 1;
+    if (aPaidAt !== null && bPaidAt === null) return -1;
+
+    if (aPaidAt !== null && bPaidAt !== null) {
+      const diff = aPaidAt - bPaidAt;
+      return mode.direction === "asc" ? diff : -diff;
+    }
+
+    // Both unpaid (or both missing paid_at): fallback to purchase date.
+    const purchaseDiff = getPurchaseTimestamp(a) - getPurchaseTimestamp(b);
+    return mode.direction === "asc" ? purchaseDiff : -purchaseDiff;
+  }
+
+  const alphaDiff = a.description.localeCompare(b.description, "pt-BR", {
+    sensitivity: "base",
+  });
+  if (alphaDiff !== 0) return mode.direction === "asc" ? alphaDiff : -alphaDiff;
+
+  // Tie-breaker for stable UX
+  const purchaseDiff = getPurchaseTimestamp(a) - getPurchaseTimestamp(b);
+  return -purchaseDiff;
+};
 
 const Transactions = () => {
   const navigate = useNavigate();
@@ -43,6 +127,15 @@ const Transactions = () => {
     "pending",
   );
   const [filterPerson, setFilterPerson] = useState<string>("all");
+
+  const [sortMode, setSortMode] = useState<SortMode>(() => {
+    if (typeof window === "undefined") return DEFAULT_SORT_MODE;
+    try {
+      return parseSortMode(window.localStorage.getItem(SORT_STORAGE_KEY));
+    } catch {
+      return DEFAULT_SORT_MODE;
+    }
+  });
 
   const fetchData = async () => {
     try {
@@ -91,6 +184,14 @@ const Transactions = () => {
   useEffect(() => {
     fetchData();
   }, [token]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(SORT_STORAGE_KEY, sortModeToKey(sortMode));
+    } catch {
+      // ignore localStorage errors (private mode, etc.)
+    }
+  }, [sortMode]);
 
   if (loading || !user)
     return <div className="loading-state">Carregando histórico...</div>;
@@ -146,6 +247,18 @@ const Transactions = () => {
 
     return true;
   });
+
+  const sortedTransactions = [...myTransactions].sort((a, b) =>
+    compareTransactions(a, b, sortMode),
+  );
+
+  const handleSortCycleClick = () => {
+    const currentIndex = SORT_CYCLE.findIndex(
+      (mode) => sortModeToKey(mode) === sortModeToKey(sortMode),
+    );
+    const nextIndex = (currentIndex + 1) % SORT_CYCLE.length;
+    setSortMode(SORT_CYCLE[nextIndex]);
+  };
   const renderTxItem = (t: Transaction, overrideOwe?: boolean) => {
     const iAmPayer = t.payer_id === user.id;
     const otherPersonId = iAmPayer ? t.receiver_id : t.payer_id;
@@ -334,20 +447,28 @@ const Transactions = () => {
               );
             })}
           </select>
+
+          <button
+            className="filter-btn sort-cycle-btn"
+            onClick={handleSortCycleClick}
+            title="Ordenação do histórico (clique para alternar)"
+          >
+            {getSortLabel(sortMode)}
+          </button>
         </div>
       </div>
 
-      {myTransactions.length === 0 ? (
+      {sortedTransactions.length === 0 ? (
         <div className="empty-state">Nenhum registro encontrado.</div>
       ) : (
         <div className="tx-list">
           {user?.group_recurring === false ? (
-            myTransactions.map(t => renderTxItem(t))
+            sortedTransactions.map((t) => renderTxItem(t))
           ) : (
             // Grouped processing
             (() => {
               const grouped: Record<string, Transaction[]> = {};
-              myTransactions.forEach(t => {
+              sortedTransactions.forEach((t) => {
                 const key = t.description.trim().toLowerCase();
                 if (!grouped[key]) grouped[key] = [];
                 grouped[key].push(t);

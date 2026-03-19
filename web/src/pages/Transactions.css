@@ -80,6 +80,12 @@
   border-color: var(--text-secondary);
 }
 
+.sort-cycle-btn {
+  min-width: 7.25rem;
+  text-align: center;
+  font-weight: 600;
+}
+
 .tx-list {
   display: flex;
   flex-direction: column;
