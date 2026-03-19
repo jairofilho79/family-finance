@@ -68,8 +68,15 @@ const getSortLabel = (mode: SortMode) => {
   return mode.direction === "asc" ? "A-Z" : "Z-A";
 };
 
+// "Compra" deve ordenar pela data da compra (`date`).
+// `due_date` é a data prevista de pagamento e não deve impactar o critério de compra.
 const getPurchaseTimestamp = (t: Transaction) =>
-  (t.due_date ?? t.date ?? 0) as number;
+  (t.date ?? t.due_date ?? 0) as number;
+
+// "Pagamento" deve ordenar pela data efetiva quando disponível (`paid_at`),
+// e caso contrário pela data a pagar (`due_date`).
+const getPaymentTimestamp = (t: Transaction) =>
+  (t.paid_at ?? t.due_date ?? t.date ?? 0) as number;
 
 const compareTransactions = (
   a: Transaction,
@@ -82,21 +89,8 @@ const compareTransactions = (
   }
 
   if (mode.criterion === "paymentDate") {
-    const aPaidAt = a.paid_at ?? null;
-    const bPaidAt = b.paid_at ?? null;
-
-    // Keep unpaid entries at the end in both directions.
-    if (aPaidAt === null && bPaidAt !== null) return 1;
-    if (aPaidAt !== null && bPaidAt === null) return -1;
-
-    if (aPaidAt !== null && bPaidAt !== null) {
-      const diff = aPaidAt - bPaidAt;
-      return mode.direction === "asc" ? diff : -diff;
-    }
-
-    // Both unpaid (or both missing paid_at): fallback to purchase date.
-    const purchaseDiff = getPurchaseTimestamp(a) - getPurchaseTimestamp(b);
-    return mode.direction === "asc" ? purchaseDiff : -purchaseDiff;
+    const diff = getPaymentTimestamp(a) - getPaymentTimestamp(b);
+    return mode.direction === "asc" ? diff : -diff;
   }
 
   const alphaDiff = a.description.localeCompare(b.description, "pt-BR", {
