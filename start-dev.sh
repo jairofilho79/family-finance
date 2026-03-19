@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Starts API and Web in separate Terminal tabs (macOS),
-# then opens the frontend URL in the default browser.
+# Simple concurrent dev runner:
+# - Runs API and Web in parallel using `concurrently` (via `npx`)
+# - Opens the frontend in the browser once `localhost:5173` responds
+# - Calls `stop-dev.sh` at the beginning to avoid port/process conflicts
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 API_DIR="${ROOT_DIR}/api"
 WEB_DIR="${ROOT_DIR}/web"
 FRONTEND_URL="${FRONTEND_URL:-http://localhost:5173}"
 
-if ! command -v osascript >/dev/null 2>&1; then
-  echo "Erro: osascript nao encontrado. Este script suporta apenas macOS."
-  exit 1
+if [[ -x "${ROOT_DIR}/stop-dev.sh" ]]; then
+  "${ROOT_DIR}/stop-dev.sh" >/dev/null 2>&1 || true
 fi
 
 if [[ ! -d "${API_DIR}" || ! -d "${WEB_DIR}" ]]; then
@@ -19,39 +20,35 @@ if [[ ! -d "${API_DIR}" || ! -d "${WEB_DIR}" ]]; then
   exit 1
 fi
 
-API_AUTH_OK="false"
-if (cd "${API_DIR}" && npx wrangler whoami >/dev/null 2>&1); then
-  API_AUTH_OK="true"
+if ! command -v npx >/dev/null 2>&1; then
+  echo "Erro: npx nao encontrado (precisa Node.js/NPM)."
+  exit 1
 fi
 
-osascript - "${API_DIR}" "${WEB_DIR}" "${API_AUTH_OK}" <<'APPLESCRIPT'
-on run argv
-  set apiDir to item 1 of argv
-  set webDir to item 2 of argv
-  set apiAuthOk to item 3 of argv
-
-  tell application "Terminal"
-    activate
-    if (count of windows) is 0 then
-      do script ""
-    end if
-
-    do script "cd " & quoted form of webDir & " && npm run dev" in window 1
-    if apiAuthOk is "true" then
-      do script "cd " & quoted form of apiDir & " && npm run dev" in window 1
-    else
-      do script "cd " & quoted form of apiDir & " && npx wrangler login && npm run dev" in window 1
-    end if
-  end tell
-end run
-APPLESCRIPT
-
-# Give Vite a brief head start before opening browser.
-sleep 2
-open "${FRONTEND_URL}"
-
-echo "API e Web iniciados em abas do Terminal."
-echo "Frontend aberto em: ${FRONTEND_URL}"
-if [[ "${API_AUTH_OK}" != "true" ]]; then
-  echo "Wrangler nao autenticado: uma aba abriu login e iniciara a API apos autenticar."
+if ! command -v curl >/dev/null 2>&1; then
+  echo "Erro: curl nao encontrado."
+  exit 1
 fi
+
+cd "${WEB_DIR}"
+
+WEB_CMD="npm run dev"
+API_CMD="npm --prefix \"${API_DIR}\" run dev"
+
+echo "Iniciando dev (web + api) com concurrently..."
+
+npx concurrently -k -n "web,api" -c "cyan,magenta" \
+  "${WEB_CMD}" \
+  "${API_CMD}" &
+
+CONCUR_PID=$!
+
+for _ in $(seq 1 40); do
+  if curl -s -o /dev/null "${FRONTEND_URL}/" >/dev/null 2>&1; then
+    open "${FRONTEND_URL}" >/dev/null 2>&1 || true
+    break
+  fi
+  sleep 0.5
+done
+
+wait "${CONCUR_PID}"
