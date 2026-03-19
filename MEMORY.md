@@ -24,3 +24,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 ## Sessao 20260319-184336
 - Branch: `feature/chat-20260319-184336-feature-data-de-compra-dia-01-em-cob`
 - Objetivo inicial: Feature: data de compra dia 01 em cobranças de assinatura (cron)
+- [2026-03-19 18:43:38] user: Ler AGENTS.md e criar branch para feature de data de compra dia 01 em assinaturas
