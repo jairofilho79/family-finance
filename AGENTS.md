@@ -58,3 +58,10 @@ Formato de commit:
 - O agente pode criar commits sem pedir confirmacao ao usuario.
 - O agente nao deve executar `git push`.
 - O `push` para remoto sera sempre feito manualmente pelo usuario.
+
+## Atualizacao autonoma de AGENTS e MEMORY
+
+- Nao perguntar ao usuario se deve registrar: apenas registrar.
+- Features e decisoes importantes do projeto devem ser adicionadas em `MEMORY.md` e commitadas automaticamente.
+- Mudancas de politica operacional devem ser adicionadas em `AGENTS.md` e commitadas automaticamente.
+- Evitar duplicacao entre arquivos, respeitando o contrato de responsabilidade de cada um.
