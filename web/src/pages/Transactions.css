@@ -80,6 +80,12 @@
   border-color: var(--text-secondary);
 }
 
+.sort-cycle-btn {
+  min-width: 7.25rem;
+  text-align: center;
+  font-weight: 600;
+}
+
 .tx-list {
   display: flex;
   flex-direction: column;
@@ -119,6 +125,16 @@
 .tx-date {
   font-size: var(--fs-xs);
   color: var(--text-secondary);
+}
+
+.tx-date-double {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tx-date-line {
+  cursor: default;
 }
 
 .tx-who {

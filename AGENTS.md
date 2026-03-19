@@ -12,9 +12,13 @@ Este arquivo define o comportamento esperado para qualquer agente que atuar nest
 ## Bootstrap obrigatorio por sessao
 
 1. Ler `AGENTS.md` e `MEMORY.md` para recuperar contexto historico.
-2. Se a branch atual for `main`, criar uma branch de sessao com:
+2. Sincronizar refs remotas antes de abrir branch:
+   - `git fetch origin`
+3. Garantir que a branch de sessao sempre nasce da `main` atualizada:
+   - `git checkout main`
+   - `git pull --ff-only origin main`
    - `./scripts/chat-session-start.sh "<mensagem-inicial-do-chat>"`
-3. Nunca trabalhar direto em `main`.
+4. Nunca trabalhar direto em `main`.
 
 ## Regra sobre walkthrough
 

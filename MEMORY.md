@@ -16,3 +16,7 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - Objetivo inicial: Criar AGENTS e mecanismo de branch por aba
 - [2026-03-19 10:04:36] user: Certo, quero criar um AGENTS (ou outro arquivo...)
 - [2026-03-19 10:04:36] assistant: Implementado AGENTS.md, scripts de sessao/turno e MEMORY.md.
+
+## Sessao 20260319-104432
+- Branch: `feature/chat-20260319-104432-implementar-ordenacao-circular-no-hi`
+- Objetivo inicial: Implementar ordenacao circular no Historico
