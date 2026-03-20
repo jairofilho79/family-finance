@@ -30,3 +30,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 08:22:16] user: POC: sem TDD e sem testes (sem necessidade de criar suíte de testes).
 - [2026-03-20 08:25:06] assistant: Branding: aba e páginas agora usam "Family Finance"; troquei web/index.html e api/public/index.html <title>, adicionei texto "Family Finance" ao header ao lado da logo, e alinhei Login/Settings (alt, h1, convite) para "Family Finance".
 - [2026-03-20 09:41:53] assistant: Favicon/notification: favicon agora é atualizado via JS para logo-final.svg no web/src/main.tsx e NotificationContext usa o mesmo logo como icon.
+- [2026-03-20 09:55:48] assistant: BrandHeader: componente novo (fundo branco, logo 1/4 via clamp, texto Family/Finance em coluna no mobile e inline >=600px) integrado em Layout.tsx e Login.tsx.
