@@ -8,7 +8,7 @@ import "./ManageRecurring.css";
 interface PaymentMethodItem {
     id: string;
     name: string;
-    image_url: string;
+    image_url?: string | null;
     order_index: number;
 }
 
