@@ -20,3 +20,7 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 ## Sessao 20260319-104432
 - Branch: `feature/chat-20260319-104432-implementar-ordenacao-circular-no-hi`
 - Objetivo inicial: Implementar ordenacao circular no Historico
+
+## Sessao 20260320-081714
+- Branch: `feature/chat-20260320-081714-nessa-feature-vamos-melhorar-o-visua`
+- Objetivo inicial: nessa feature, vamos melhorar o visual da aplicação. Primeiro ponto: usar a logo e o nome family-finance no title da aplicação
