@@ -39,3 +39,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:04:55] assistant: Tema escuro: ajustar verde para ficar mais escuro e uniforme. Em `web/src/index.css` no bloco `[data-theme="dark"]` troquei `--bg-color` de `#2f6f1d` para `#245b18` (mesmo valor do `--surface-color`) para eliminar o verde mais claro.
 - [2026-03-20 11:07:48] assistant: BrandHeader: aumentei altura/padding, aumentei max-height da logo (56px) e ajustei espaçamento do texto (padding-left 0.55rem) e alinhamento pra o icon e texto aproveitarem mais espaço horizontal.
 - [2026-03-20 11:11:26] assistant: Ajuste BrandHeader: aumentei um pouco o tamanho (logo max-height 60px, largura do wrap clamp(115px,26%,200px)) e aproximei o texto do ícone (padding-left 0.35rem) e em >=600px aumentei levemente font-size (calc(fs-3xl*1.06)) para ficar maior e mais equilibrado.
+- [2026-03-20 11:13:27] user: Ajustar BrandHeader: logo e texto maiores e remover gap grande entre ambos.
