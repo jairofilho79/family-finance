@@ -62,3 +62,8 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:55:59] user: Agora sobre o texto das labels: Quem pagou? -> Pagador; Para quem? -> Recebedor. Faça essas trocas.
 - [2026-03-20 11:55:59] assistant: Atualizei os textos das labels na Nova Transação em : 'Quem pagou/Quem paga?' para 'Pagador' e 'Para quem?' para 'Recebedor', mantendo o mesmo layout e responsividade.
 - [2026-03-20 11:56:02] assistant: Atualizei os textos das labels na Nova Transação em NewTransaction.tsx: 'Quem pagou'/'Quem paga' para 'Pagador' e 'Para quem?' para 'Recebedor', mantendo o mesmo layout e responsividade.
+## Sessao 20260319-184336
+- Branch: `feature/chat-20260319-184336-feature-data-de-compra-dia-01-em-cob`
+- Objetivo inicial: Feature: data de compra dia 01 em cobranças de assinatura (cron)
+- [2026-03-19 18:43:38] user: Ler AGENTS.md e criar branch para feature de data de compra dia 01 em assinaturas
+- [2026-03-19 18:43:39] assistant: Lidos AGENTS e MEMORY; git fetch/pull em main; stash de WIP; sessão iniciada em feature/chat-* para assinatura dia 01

@@ -87,7 +87,10 @@ const formatPtBrDate = (timestamp: number | null | undefined) => {
   if (typeof timestamp !== "number" || Number.isNaN(timestamp) || timestamp <= 0) {
     return "";
   }
-  return new Date(timestamp).toLocaleDateString("pt-BR");
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return new Intl.DateTimeFormat("pt-BR", { timeZone }).format(
+    new Date(timestamp),
+  );
 };
 
 const compareTransactions = (

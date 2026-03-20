@@ -12,6 +12,14 @@ interface UserOption {
     picture: string;
 }
 
+const toDateInputValue = (timestamp: number) => {
+    const d = new Date(timestamp);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+};
+
 const TransactionDetails = () => {
     const { id } = useParams<{ id: string }>();
     const { user, token } = useAuth();
@@ -70,8 +78,8 @@ const TransactionDetails = () => {
                 setAmountInput(txData.transaction.amount.toString());
                 setPayerId(txData.transaction.payer_id);
                 setReceiverId(txData.transaction.receiver_id);
-                setDate(new Date(txData.transaction.date).toISOString().split("T")[0]);
-                setDueDate(new Date(txData.transaction.due_date || txData.transaction.date).toISOString().split("T")[0]);
+                setDate(toDateInputValue(txData.transaction.date));
+                setDueDate(toDateInputValue(txData.transaction.due_date || txData.transaction.date));
                 setPaymentDescription(txData.transaction.payment_description || "");
             } else {
                 navigate("/transactions");

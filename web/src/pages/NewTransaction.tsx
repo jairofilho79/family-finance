@@ -12,6 +12,17 @@ interface UserOption {
   picture: string;
 }
 
+const toDateInputValue = (value: number | Date = Date.now()) => {
+  const d = value instanceof Date ? value : new Date(value);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const fromDateInputValue = (value: string) =>
+  new Date(`${value}T12:00:00`).getTime();
+
 const NewTransaction = () => {
   const { user, token } = useAuth();
   const navigate = useNavigate();
@@ -22,8 +33,8 @@ const NewTransaction = () => {
   const [amountInput, setAmountInput] = useState("");
   const [payerId, setPayerId] = useState(user?.id || "");
   const [receiverId, setReceiverId] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [dueDate, setDueDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(toDateInputValue());
+  const [dueDate, setDueDate] = useState(toDateInputValue());
   const [type, setType] = useState("single");
   const [installments, setInstallments] = useState("2");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -227,8 +238,8 @@ const NewTransaction = () => {
       const totalCents = parseInt(amountInput || "0", 10);
       const currentParticipantBalances = getParticipantBalances();
       const currentSplitBalanceTotal = currentParticipantBalances.reduce((sum, b) => b.balance > 0 ? sum + b.balance : sum, 0);
-      const txDate = new Date(date).getTime();
-      const txDueDate = new Date(dueDate).getTime();
+      const txDate = fromDateInputValue(date);
+      const txDueDate = fromDateInputValue(dueDate);
 
       const payloads = splitTabs.map(tab => {
         let finalPayer = tab.payerId;
@@ -288,8 +299,8 @@ const NewTransaction = () => {
 
     setIsSubmitting(true);
 
-    const txDate = new Date(date).getTime();
-    const txDueDate = new Date(dueDate).getTime();
+    const txDate = fromDateInputValue(date);
+    const txDueDate = fromDateInputValue(dueDate);
 
     const payload = {
       description,
