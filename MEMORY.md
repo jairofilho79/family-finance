@@ -33,3 +33,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 09:55:48] assistant: BrandHeader: componente novo (fundo branco, logo 1/4 via clamp, texto Family/Finance em coluna no mobile e inline >=600px) integrado em Layout.tsx e Login.tsx.
 - [2026-03-20 10:00:30] assistant: Cores: troquei `--primary-color` e `--primary-hover` em `web/src/index.css` do azul-roxo para o verde exato do `logo-final.svg` (#3a8f26), mantendo dark theme alinhado. Assim texto e acentos ficam na cor da logo.
 - [2026-03-20 10:04:15] assistant: Criei `logo-final-branca.svg` copiando `logo-final.svg` e trocando o fill principal de `#3a8f26` para `#ffffff`.
+- [2026-03-20 10:08:20] assistant: Corrigi `logo-final-branca.svg`: regenerada a partir de `logo-final.svg` alterando apenas `fill="#3a8f26"` para `fill="#ffffff"`, preservando fundo/transparência e conteúdo completo do SVG.
