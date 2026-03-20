@@ -58,7 +58,7 @@
 .login-card h1 {
   font-size: var(--fs-3xl);
   margin-bottom: 0.5rem;
-  color: var(--primary-color);
+  color: var(--accent-text-color);
 }
 
 .login-card p {

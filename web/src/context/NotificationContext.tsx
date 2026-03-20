@@ -1,6 +1,9 @@
 import { createContext, useContext, useEffect, useState, useRef } from "react";
 import type { ReactNode } from "react";
 import { useAuth, API_URL } from "./AuthContext";
+import logo from "../../../logo-final.svg";
+import logoWhite from "../../../logo-final-branca.svg";
+import { useConfig } from "./ConfigContext";
 
 export interface NotificationItem {
   id: string;
@@ -22,6 +25,7 @@ const NotificationContext = createContext<NotificationContextProps>(
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const { user, token } = useAuth();
+  const { theme } = useConfig();
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const previouslyFetchedIds = useRef<Set<string>>(new Set());
 
@@ -43,6 +47,8 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         const data = await res.json();
         const newNotifs: NotificationItem[] = data.notifications || [];
 
+        const notificationIcon = theme === "dark" ? logoWhite : logo;
+
         // Check for new notifications to trigger Push
         const currentIds = new Set(newNotifs.map((n) => n.id));
         const oldIds = previouslyFetchedIds.current;
@@ -59,7 +65,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             ) {
               new Notification("Nova Notificação", {
                 body: fn.message,
-                icon: "/vite.svg", // Default or specific icon
+                icon: notificationIcon,
               });
             }
           });
@@ -83,7 +89,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       setNotifications([]);
       previouslyFetchedIds.current.clear();
     }
-  }, [user, token]);
+  }, [user, token, theme]);
 
   const markAsRead = async (id: string) => {
     if (!token) return;

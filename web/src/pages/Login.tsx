@@ -1,8 +1,8 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuth } from "../context/AuthContext";
-import { NavLink, useSearchParams } from "react-router-dom";
-import logo from "../../../logo-final.svg";
+import { useSearchParams } from "react-router-dom";
 import "./Login.css";
+import BrandHeader from "../components/BrandHeader";
 
 const Login = () => {
   const { login, authError } = useAuth();
@@ -22,15 +22,11 @@ const Login = () => {
 
   return (
     <div className="login-page">
-      <header className="login-header">
-        <NavLink to="/" className="brand-link" end>
-          <img src={logo} alt="Família Finance" className="brand-logo" />
-        </NavLink>
-      </header>
+      <BrandHeader />
 
       <div className="login-container">
         <div className="login-card">
-          <h1>Família Finance</h1>
+          <h1>Family Finance</h1>
           <p>Gestão de gastos compartilhados e divisões da família.</p>
 
           {authError && <div className="login-error">{authError}</div>}

@@ -111,7 +111,7 @@ const Settings = () => {
 
       if (navigator.share) {
         await navigator.share({
-          title: "Convite Família Finance",
+          title: "Convite Family Finance",
           text: "Acesse nosso app de finanças!",
           url: inviteUrl,
         });
@@ -170,15 +170,15 @@ const Settings = () => {
           <label>Tema Visão</label>
           <div className="toggle-group">
             <button
-              className={theme === "light" ? "active" : ""}
-              onClick={() => savePreferences("light", fontSize)}
+              className={theme === "dark" ? "active" : ""}
+              onClick={() => savePreferences("dark", fontSize)}
               disabled={saving}
             >
               Escuro
             </button>
             <button
-              className={theme === "dark" ? "active" : ""}
-              onClick={() => savePreferences("dark", fontSize)}
+              className={theme === "light" ? "active" : ""}
+              onClick={() => savePreferences("light", fontSize)}
               disabled={saving}
             >
               Claro

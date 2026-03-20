@@ -85,6 +85,7 @@
 .sub-card {
   flex: 1;
   padding: 1rem;
+  min-width: 0; /* evita overflow quando o container é flex */
 }
 
 .sub-card p {
@@ -93,6 +94,12 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
+}
+
+.sub-card h3 {
+  /* pt-BR currency pode vir com NBSP, então garantimos quebra em qualquer lugar */
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .receive h3 {
@@ -316,6 +323,56 @@
 
 .btn-pay-pending:hover {
   opacity: 0.9;
+}
+
+@media (max-width: 480px) {
+  .card-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sub-card {
+    width: 100%;
+  }
+
+  .peer-details-summary {
+    flex-direction: column;
+  }
+
+  /* Evita sobreposição no card do peer (“Você deve R$ ...”) */
+  .balance-item {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.75rem;
+  }
+
+  .peer-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .peer-amount {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .peer-amount .status {
+    line-height: 1.1;
+  }
+
+  .peer-amount .amount {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.1;
+  }
 }
 
 /* Collapsible Lists */

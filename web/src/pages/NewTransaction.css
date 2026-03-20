@@ -105,7 +105,7 @@
 
 .swap-btn:hover {
   background-color: var(--surface-color);
-  color: var(--primary-color);
+  color: var(--accent-text-color);
   border-color: var(--primary-color);
 }
 
@@ -155,7 +155,7 @@
 .recurring-chip {
   flex-shrink: 0;
   background-color: transparent;
-  color: var(--primary-color);
+  color: var(--accent-text-color);
   border: 1px solid var(--primary-color);
   border-radius: 99px;
   padding: 0.4rem 0.8rem;
@@ -186,7 +186,7 @@
   transition: all 0.2s;
   border: 1.5px dashed var(--primary-color);
   background: transparent;
-  color: var(--primary-color);
+  color: var(--accent-text-color);
 }
 
 .split-btn:hover:not(:disabled) {
@@ -253,7 +253,7 @@
 }
 
 .split-stat-value.split-match {
-  color: var(--success-color, #22c55e);
+  color: var(--success-color, #60a5fa);
 }
 
 /* Participant balances */
@@ -317,7 +317,7 @@
 }
 
 .participant-metric-value.received {
-  color: var(--success-color, #22c55e); 
+  color: var(--success-color, #60a5fa); 
 }
 
 .participant-metric-value.neutral {
@@ -368,7 +368,7 @@
 
 .split-tab-btn.active {
   background: var(--surface-color);
-  color: var(--primary-color);
+  color: var(--accent-text-color);
   font-weight: 700;
   border-color: var(--primary-color);
   border-bottom: 2px solid var(--surface-color);
@@ -417,4 +417,56 @@
   border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
   padding: 1rem;
   background: var(--bg-color);
+}
+
+.tx-participant-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.tx-participant-select-control {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 481px) {
+  .tx-participants-input-row {
+    align-items: flex-end !important;
+  }
+
+  .tx-participants-input-row .swap-btn {
+    margin-bottom: 0.05rem;
+  }
+}
+
+/* Mobile: stack "Quem pagou?/Para quem?" and related inputs */
+@media (max-width: 480px) {
+  .tx-participants-input-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .tx-participant-select {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+  }
+
+  .tx-participants-input-row .swap-btn {
+    align-self: center;
+  }
+
+  .tx-date-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .tx-date-row > label {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
 }
