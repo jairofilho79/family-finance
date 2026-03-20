@@ -58,3 +58,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:52:19] user: Não acho que duplicar esses componente seja uma boa solução. Por favor, desfaça. Use um único componente independente do tamanho de tela.
 - [2026-03-20 11:52:19] assistant: Desfiz a duplicação de labels na Nova Transação: removi o bloco separado e mantive uma única estrutura de labels junto aos selects para desktop e mobile, com apenas ajuste de layout via CSS por breakpoint.
 - [2026-03-20 11:53:26] user: pode fazer
+- [2026-03-20 11:53:26] assistant: Ajustei o espaçamento/alinhamento desktop dos labels na Nova Transação sem alterar o comportamento mobile; build e lint passaram.
