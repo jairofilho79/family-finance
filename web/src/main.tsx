@@ -9,30 +9,13 @@ import { AuthProvider } from "./context/AuthContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import App from "./App.tsx";
 import "./index.css";
-import logo from "../../logo-final.svg";
+import FaviconThemeSync from "./components/FaviconThemeSync";
 
 // Ideally from env variable. Using a generic dev client ID or placeholder.
 // The user will need to provide their own for production.
 const GOOGLE_CLIENT_ID =
   "423245291834-p3os54gt8ldiut466pq01os2q1goc732.apps.googleusercontent.com";
 
-// Atualiza o favicon do browser para usar a marca da aplicação.
-// Alguns navegadores podem cachear favicon; um reload hard pode ser necessário.
-const updateFavicon = (href: string) => {
-  const existing = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-  if (existing) {
-    existing.href = href;
-    return;
-  }
-
-  const link = document.createElement("link");
-  link.rel = "icon";
-  link.type = "image/svg+xml";
-  link.href = href;
-  document.head.appendChild(link);
-};
-
-updateFavicon(logo);
 document.title = "Family Finance";
 
 createRoot(document.getElementById("root")!).render(
@@ -40,6 +23,7 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
         <ConfigProvider>
+          <FaviconThemeSync />
           <AuthProvider>
             <NotificationProvider>
               <App />

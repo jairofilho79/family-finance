@@ -1,8 +1,13 @@
 import { NavLink } from "react-router-dom";
-import logo from "../../../logo-final.svg";
+import { useConfig } from "../context/ConfigContext";
+import logoGreen from "../../../logo-final.svg";
+import logoWhite from "../../../logo-final-branca.svg";
 import "./BrandHeader.css";
 
 export default function BrandHeader() {
+  const { theme } = useConfig();
+  const logo = theme === "dark" ? logoWhite : logoGreen;
+
   return (
     <header className="brand-header">
       <NavLink to="/" className="brand-header-link" end>

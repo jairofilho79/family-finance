@@ -134,8 +134,7 @@
 }
 
 .btn-confirm-pay.receive-mode:hover {
-    background-color: #059669;
-    /* darker tailwind emarald-600 */
+    background-color: var(--success-hover-color);
 }
 
 .tx-list-section {

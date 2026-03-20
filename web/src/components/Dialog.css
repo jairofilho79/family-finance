@@ -124,7 +124,7 @@
 }
 
 .dialog-info .dialog-icon {
-  color: var(--primary-color);
+  color: var(--accent-text-color);
 }
 
 .dialog-success .dialog-btn-confirm {
@@ -132,8 +132,7 @@
 }
 
 .dialog-success .dialog-btn-confirm:hover {
-  background-color: #059669;
-  /* tailwind emarald-600 equivalent */
+  background-color: var(--success-hover-color);
 }
 
 .dialog-success .dialog-icon {

@@ -2,7 +2,7 @@
 
 :root {
   /* Default: Light Theme */
-  --bg-color: #f8fafc;
+  --bg-color: #ffffff;
   --surface-color: #ffffff;
   --text-primary: #0f172a;
   --text-secondary: #475569;
@@ -10,9 +10,19 @@
 
   --primary-color: #3a8f26;
   --primary-hover: #2f6f1d;
-  --success-color: #10b981;
+
+  /* Text accents (links, details and active states) */
+  --accent-text-color: var(--primary-color);
+  --accent-text-hover-color: var(--primary-hover);
+
+  --success-color: #60a5fa;
+  --success-hover-color: #3b82f6;
   --danger-color: #ef4444;
   --warning-color: #f59e0b;
+
+  /* Tokens used by some components */
+  --input-bg: var(--surface-color);
+  --text-color: var(--text-primary);
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -35,14 +45,24 @@
 }
 
 [data-theme="dark"] {
-  --bg-color: #0f172a;
-  --surface-color: #1e293b;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
+  /* Escuro: fundo verde, textos e detalhes brancos */
+  --bg-color: #245b18;
+  --surface-color: #245b18;
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --border-color: rgba(255, 255, 255, 0.2);
 
   --primary-color: #3a8f26;
   --primary-hover: #2f6f1d;
+
+  --accent-text-color: #ffffff;
+  --accent-text-hover-color: rgba(255, 255, 255, 0.9);
+
+  --input-bg: rgba(255, 255, 255, 0.06);
+  --text-color: #ffffff;
+
+  --success-color: #60a5fa;
+  --success-hover-color: #3b82f6;
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
@@ -110,13 +130,13 @@ h6 {
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--accent-text-color);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 a:hover {
-  color: var(--primary-hover);
+  color: var(--accent-text-hover-color);
 }
 
 button {
