@@ -22,6 +22,15 @@
   display: block;
 }
 
+.brand-name {
+  margin-left: 0.65rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: var(--fs-lg);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
 .main-content {
   flex: 1;
   padding: 1rem;

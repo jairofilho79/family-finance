@@ -5,17 +5,13 @@ import {
   PlusCircle,
   Settings as SettingsIcon,
 } from "lucide-react";
-import logo from "../../../logo-final.svg";
+import BrandHeader from "./BrandHeader";
 import "./Layout.css";
 
 const Layout = () => {
   return (
     <div className="layout-container">
-      <header className="layout-header">
-        <NavLink to="/" className="brand-link" end>
-          <img src={logo} alt="Família Finance" className="brand-logo" />
-        </NavLink>
-      </header>
+      <BrandHeader />
 
       <main className="main-content">
         <Outlet />

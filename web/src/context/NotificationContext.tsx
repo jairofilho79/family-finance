@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useRef } from "react";
 import type { ReactNode } from "react";
 import { useAuth, API_URL } from "./AuthContext";
+import logo from "../../../logo-final.svg";
 
 export interface NotificationItem {
   id: string;
@@ -59,7 +60,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             ) {
               new Notification("Nova Notificação", {
                 body: fn.message,
-                icon: "/vite.svg", // Default or specific icon
+                icon: logo,
               });
             }
           });

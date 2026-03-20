@@ -111,7 +111,7 @@ const Settings = () => {
 
       if (navigator.share) {
         await navigator.share({
-          title: "Convite Família Finance",
+          title: "Convite Family Finance",
           text: "Acesse nosso app de finanças!",
           url: inviteUrl,
         });
