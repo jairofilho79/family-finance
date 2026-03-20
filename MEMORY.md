@@ -56,3 +56,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:50:52] user: Só as labels que não foi junto com o input aqui, pode corrigir?
 - [2026-03-20 11:50:52] assistant: Ajustei a Nova Transação no mobile: escondi o bloco de labels e adicionei labels mobile-only diretamente acima de cada select, garantindo que fiquem junto aos inputs (mantendo layout das telas grandes).
 - [2026-03-20 11:52:19] user: Não acho que duplicar esses componente seja uma boa solução. Por favor, desfaça. Use um único componente independente do tamanho de tela.
+- [2026-03-20 11:52:19] assistant: Desfiz a duplicação de labels na Nova Transação: removi o bloco separado e mantive uma única estrutura de labels junto aos selects para desktop e mobile, com apenas ajuste de layout via CSS por breakpoint.
