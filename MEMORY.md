@@ -54,3 +54,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:43:00] user: Agora na tela de nova transação. Veja que há vários componentes lado a lado que deveria ser um embaixo do outros. principalmente os inputs. Faça essa refatoração. Mas atente-se em manter apenas nas telas pequenas. Não altere nas telas maiores
 - [2026-03-20 11:43:00] assistant: Refatorei o layout responsivo da Nova Transação: em telas <=480px empilha em coluna os blocos de 'Quem pagou/Para quem' e a linha de datas (sem mudar telas maiores).
 - [2026-03-20 11:50:52] user: Só as labels que não foi junto com o input aqui, pode corrigir?
+- [2026-03-20 11:50:52] assistant: Ajustei a Nova Transação no mobile: escondi o bloco de labels e adicionei labels mobile-only diretamente acima de cada select, garantindo que fiquem junto aos inputs (mantendo layout das telas grandes).
