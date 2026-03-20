@@ -42,3 +42,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:13:27] user: Ajustar BrandHeader: logo e texto maiores e remover gap grande entre ambos.
 - [2026-03-20 11:13:27] assistant: Atualizado BrandHeader.css para reduzir gap real (removendo espaço morto do ícone), aumentar tamanho de logo/texto e manter layout alinhado. Build web ok.
 - [2026-03-20 11:14:17] user: Pedir para deixar logo e texto do BrandHeader ainda mais próximos.
+- [2026-03-20 11:14:17] assistant: Reduzi espaço no BrandHeader (gap 0.12rem e área da logo de 24% para 20% com min/max menores) para aproximar bastante logo e texto; build web passou.
