@@ -45,3 +45,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:14:17] assistant: Reduzi espaço no BrandHeader (gap 0.12rem e área da logo de 24% para 20% com min/max menores) para aproximar bastante logo e texto; build web passou.
 - [2026-03-20 11:21:07] user: Trocar cor de receita/a receber para azul com contraste no fundo verde.
 - [2026-03-20 11:21:07] assistant: Atualizei token `--success-color` para azul (`#60a5fa`) e hover (`#3b82f6`) em `web/src/index.css`, além de substituir hovers hardcoded verdes em Dialog/PayPending e fallback verde em NewTransaction. Build web passou.
+- [2026-03-20 11:26:08] assistant: Correção no seletor de tema: em `web/src/pages/Settings.tsx` inverti os botões para que "Escuro" aplique `dark` e "Claro" aplique `light` (antes estava invertido). Build do web passou.
