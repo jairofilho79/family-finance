@@ -67,3 +67,10 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - Objetivo inicial: Feature: data de compra dia 01 em cobranças de assinatura (cron)
 - [2026-03-19 18:43:38] user: Ler AGENTS.md e criar branch para feature de data de compra dia 01 em assinaturas
 - [2026-03-19 18:43:39] assistant: Lidos AGENTS e MEMORY; git fetch/pull em main; stash de WIP; sessão iniciada em feature/chat-* para assinatura dia 01
+
+## Sessao 20260320-122426
+- Branch: `fix/chat-20260320-122426-fix-settings-payment-methods-compart`
+- Objetivo inicial: fix /settings/payment-methods - compartilhar imagens entre usuários
+- [2026-03-20 12:27:50] user: Implementar correção /settings/payment-methods: compartilhar itens e image_url entre usuários
+- [2026-03-20 12:27:50] assistant: Criada shared_id para payment_methods (migration 0009) e backend agora sincroniza via shared_id com backfill no GET e replicação em POST/PUT/DELETE + ordem. Ajuste de tipagem em ManagePaymentMethods para image_url null/undefined.
+- [2026-03-20 15:47:07] assistant: Em prod: ao aplicar migrations via wrangler, 0008 falhou por colunas já existentes. Marquei 0008 como aplicada no D1 (insert em d1_migrations) para destravar, apliquei 0009_shared_payment_methods e depois fiz wrangler deploy (Worker atualizado).
