@@ -59,3 +59,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-03-20 11:52:19] assistant: Desfiz a duplicação de labels na Nova Transação: removi o bloco separado e mantive uma única estrutura de labels junto aos selects para desktop e mobile, com apenas ajuste de layout via CSS por breakpoint.
 - [2026-03-20 11:53:26] user: pode fazer
 - [2026-03-20 11:53:26] assistant: Ajustei o espaçamento/alinhamento desktop dos labels na Nova Transação sem alterar o comportamento mobile; build e lint passaram.
+- [2026-03-20 11:55:59] user: Agora sobre o texto das labels: Quem pagou? -> Pagador; Para quem? -> Recebedor. Faça essas trocas.
