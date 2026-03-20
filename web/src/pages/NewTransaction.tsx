@@ -461,61 +461,61 @@ const NewTransaction = () => {
         {!isSplitMode ? (
           <>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <span style={{ flex: 1, fontSize: 'var(--fs-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>Quem pagou?</span>
-                {!isPersonal && <span style={{ width: '46px', flexShrink: 0 }}></span>}
-                <span style={{ flex: 1, fontSize: 'var(--fs-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>Para quem?</span>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <div className="tx-participants-input-row" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
                 {isPersonal && personalDirection === 'incoming' ? (
-                  <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                    {(() => {
-                      const selectedPM = paymentMethods.find(pm => pm.id === paymentMethodId);
-                      if (!selectedPM) return null;
-                      return selectedPM.image_url ? (
-                        <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                      ) : (
-                        <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
-                      );
-                    })()}
-                    <select
-                      style={{ width: '100%', paddingLeft: '2.5rem' }}
-                      value={paymentMethodId}
-                      onChange={(e) => setPaymentMethodId(e.target.value)}
-                      required
-                    >
-                      {paymentMethods.map((pm) => (
-                        <option key={pm.id} value={pm.id}>
-                          {pm.name}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                    <span className="tx-participant-label">Pagador</span>
+                    <div className="tx-participant-select-control">
+                      {(() => {
+                        const selectedPM = paymentMethods.find(pm => pm.id === paymentMethodId);
+                        if (!selectedPM) return null;
+                        return selectedPM.image_url ? (
+                          <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                        ) : (
+                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
+                        );
+                      })()}
+                      <select
+                        style={{ width: '100%', paddingLeft: '2.5rem' }}
+                        value={paymentMethodId}
+                        onChange={(e) => setPaymentMethodId(e.target.value)}
+                        required
+                      >
+                        {paymentMethods.map((pm) => (
+                          <option key={pm.id} value={pm.id}>
+                            {pm.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 ) : (
-                  <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                    {(() => {
-                      const selectedPayer = users.find(u => u.id === payerId);
-                      if (!selectedPayer) return null;
-                      return selectedPayer.picture ? (
-                        <img src={selectedPayer.picture} alt={selectedPayer.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                      ) : (
-                        <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPayer.name?.[0]?.toUpperCase() || 'P'}</div>
-                      );
-                    })()}
-                    <select
-                      style={{ width: '100%', paddingLeft: '2.5rem' }}
-                      value={payerId}
-                      onChange={(e) => setPayerId(e.target.value)}
-                      required
-                      disabled={isPersonal && personalDirection === 'outgoing'}
-                    >
-                      {users.filter(u => (isPersonal && personalDirection === 'outgoing') || u.id !== receiverId).map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {formatName(u.name)}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                    <span className="tx-participant-label">Pagador</span>
+                    <div className="tx-participant-select-control">
+                      {(() => {
+                        const selectedPayer = users.find(u => u.id === payerId);
+                        if (!selectedPayer) return null;
+                        return selectedPayer.picture ? (
+                          <img src={selectedPayer.picture} alt={selectedPayer.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                        ) : (
+                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPayer.name?.[0]?.toUpperCase() || 'P'}</div>
+                        );
+                      })()}
+                      <select
+                        style={{ width: '100%', paddingLeft: '2.5rem' }}
+                        value={payerId}
+                        onChange={(e) => setPayerId(e.target.value)}
+                        required
+                        disabled={isPersonal && personalDirection === 'outgoing'}
+                      >
+                        {users.filter(u => (isPersonal && personalDirection === 'outgoing') || u.id !== receiverId).map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {formatName(u.name)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 )}
 
@@ -529,53 +529,59 @@ const NewTransaction = () => {
                 </button>
 
                 {isPersonal && personalDirection === 'outgoing' ? (
-                  <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                    {(() => {
-                      const selectedPM = paymentMethods.find(pm => pm.id === paymentMethodId);
-                      if (!selectedPM) return null;
-                      return selectedPM.image_url ? (
-                        <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                      ) : (
-                        <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
-                      );
-                    })()}
-                    <select
-                      style={{ width: '100%', paddingLeft: '2.5rem' }}
-                      value={paymentMethodId}
-                      onChange={(e) => setPaymentMethodId(e.target.value)}
-                      required
-                    >
-                      {paymentMethods.map((pm) => (
-                        <option key={pm.id} value={pm.id}>
-                          {pm.name}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                    <span className="tx-participant-label">Recebedor</span>
+                    <div className="tx-participant-select-control">
+                      {(() => {
+                        const selectedPM = paymentMethods.find(pm => pm.id === paymentMethodId);
+                        if (!selectedPM) return null;
+                        return selectedPM.image_url ? (
+                          <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                        ) : (
+                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
+                        );
+                      })()}
+                      <select
+                        style={{ width: '100%', paddingLeft: '2.5rem' }}
+                        value={paymentMethodId}
+                        onChange={(e) => setPaymentMethodId(e.target.value)}
+                        required
+                      >
+                        {paymentMethods.map((pm) => (
+                          <option key={pm.id} value={pm.id}>
+                            {pm.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 ) : (
-                  <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                    {(() => {
-                      const selectedReceiver = users.find(u => u.id === receiverId);
-                      if (!selectedReceiver) return null;
-                      return selectedReceiver.picture ? (
-                        <img src={selectedReceiver.picture} alt={selectedReceiver.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                      ) : (
-                        <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedReceiver.name?.[0]?.toUpperCase() || 'P'}</div>
-                      );
-                    })()}
-                    <select
-                      style={{ width: '100%', paddingLeft: '2.5rem' }}
-                      value={receiverId}
-                      onChange={(e) => setReceiverId(e.target.value)}
-                      required
-                      disabled={isPersonal && personalDirection === 'incoming'}
-                    >
-                      {users.filter(u => (isPersonal && personalDirection === 'incoming') || u.id !== payerId).map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {formatName(u.name)}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                    <span className="tx-participant-label">Recebedor</span>
+                    <div className="tx-participant-select-control">
+                      {(() => {
+                        const selectedReceiver = users.find(u => u.id === receiverId);
+                        if (!selectedReceiver) return null;
+                        return selectedReceiver.picture ? (
+                          <img src={selectedReceiver.picture} alt={selectedReceiver.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                        ) : (
+                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedReceiver.name?.[0]?.toUpperCase() || 'P'}</div>
+                        );
+                      })()}
+                      <select
+                        style={{ width: '100%', paddingLeft: '2.5rem' }}
+                        value={receiverId}
+                        onChange={(e) => setReceiverId(e.target.value)}
+                        required
+                        disabled={isPersonal && personalDirection === 'incoming'}
+                      >
+                        {users.filter(u => (isPersonal && personalDirection === 'incoming') || u.id !== payerId).map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {formatName(u.name)}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 )}
               </div>
@@ -605,7 +611,7 @@ const NewTransaction = () => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+            <div className="tx-date-row" style={{ display: 'flex', gap: '1rem', width: '100%' }}>
               <label style={{ flex: 1 }}>
                 Data da Compra
                 <input
@@ -669,7 +675,7 @@ const NewTransaction = () => {
         ) : (
           /* ================== SPLIT MODE ================== */
           <div className="split-mode-container animate-reveal">
-            <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
+            <div className="tx-date-row" style={{ display: 'flex', gap: '1rem', width: '100%' }}>
               <label style={{ flex: 1 }}>
                 Data da Compra
                 <input
@@ -793,46 +799,47 @@ const NewTransaction = () => {
                   />
                 </label>
 
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                  <span style={{ flex: 1, fontSize: 'var(--fs-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>Quem paga?</span>
-                  {!splitTabs[activeTab].isPersonal && <span style={{ width: '46px', flexShrink: 0 }}></span>}
-                  <span style={{ flex: 1, fontSize: 'var(--fs-sm)', color: 'var(--text-secondary)', fontWeight: 500 }}>Para quem?</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div className="tx-participants-input-row" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   {/* PAYER SELECT */}
                   {splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'incoming' ? (
-                    <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                      {(() => {
-                        const selectedPM = paymentMethods.find(pm => pm.id === splitTabs[activeTab].paymentMethodId);
-                        if (!selectedPM) return null;
-                        return selectedPM.image_url ? (
-                          <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].paymentMethodId} onChange={e => updateSplitTab(activeTab, 'paymentMethodId', e.target.value)} required>
-                        {paymentMethods.map(pm => (
-                          <option key={pm.id} value={pm.id}>{pm.name}</option>
-                        ))}
-                      </select>
+                    <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                      <span className="tx-participant-label">Pagador</span>
+                      <div className="tx-participant-select-control">
+                        {(() => {
+                          const selectedPM = paymentMethods.find(pm => pm.id === splitTabs[activeTab].paymentMethodId);
+                          if (!selectedPM) return null;
+                          return selectedPM.image_url ? (
+                            <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                          ) : (
+                            <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
+                          );
+                        })()}
+                        <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].paymentMethodId} onChange={e => updateSplitTab(activeTab, 'paymentMethodId', e.target.value)} required>
+                          {paymentMethods.map(pm => (
+                            <option key={pm.id} value={pm.id}>{pm.name}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   ) : (
-                    <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                      {(() => {
-                        const selected = users.find(u => u.id === splitTabs[activeTab].payerId);
-                        if (!selected) return null;
-                        return selected.picture ? (
-                          <img src={selected.picture} alt={selected.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selected.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].payerId} onChange={e => updateSplitTab(activeTab, 'payerId', e.target.value)} required disabled={splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'outgoing'}>
-                        {users.filter(u => (splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'outgoing') || u.id !== splitTabs[activeTab].receiverId).map(u => (
-                          <option key={u.id} value={u.id}>{formatName(u.name)}</option>
-                        ))}
-                      </select>
+                    <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                      <span className="tx-participant-label">Pagador</span>
+                      <div className="tx-participant-select-control">
+                        {(() => {
+                          const selected = users.find(u => u.id === splitTabs[activeTab].payerId);
+                          if (!selected) return null;
+                          return selected.picture ? (
+                            <img src={selected.picture} alt={selected.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                          ) : (
+                            <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selected.name?.[0]?.toUpperCase() || 'P'}</div>
+                          );
+                        })()}
+                        <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].payerId} onChange={e => updateSplitTab(activeTab, 'payerId', e.target.value)} required disabled={splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'outgoing'}>
+                          {users.filter(u => (splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'outgoing') || u.id !== splitTabs[activeTab].receiverId).map(u => (
+                            <option key={u.id} value={u.id}>{formatName(u.name)}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   )}
 
@@ -847,38 +854,44 @@ const NewTransaction = () => {
 
                   {/* RECEIVER SELECT */}
                   {splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'outgoing' ? (
-                    <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                      {(() => {
-                        const selectedPM = paymentMethods.find(pm => pm.id === splitTabs[activeTab].paymentMethodId);
-                        if (!selectedPM) return null;
-                        return selectedPM.image_url ? (
-                          <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].paymentMethodId} onChange={e => updateSplitTab(activeTab, 'paymentMethodId', e.target.value)} required>
-                        {paymentMethods.map(pm => (
-                          <option key={pm.id} value={pm.id}>{pm.name}</option>
-                        ))}
-                      </select>
+                    <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                      <span className="tx-participant-label">Recebedor</span>
+                      <div className="tx-participant-select-control">
+                        {(() => {
+                          const selectedPM = paymentMethods.find(pm => pm.id === splitTabs[activeTab].paymentMethodId);
+                          if (!selectedPM) return null;
+                          return selectedPM.image_url ? (
+                            <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                          ) : (
+                            <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
+                          );
+                        })()}
+                        <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].paymentMethodId} onChange={e => updateSplitTab(activeTab, 'paymentMethodId', e.target.value)} required>
+                          {paymentMethods.map(pm => (
+                            <option key={pm.id} value={pm.id}>{pm.name}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   ) : (
-                    <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-                      {(() => {
-                        const selected = users.find(u => u.id === splitTabs[activeTab].receiverId);
-                        if (!selected) return null;
-                        return selected.picture ? (
-                          <img src={selected.picture} alt={selected.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selected.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].receiverId} onChange={e => updateSplitTab(activeTab, 'receiverId', e.target.value)} required disabled={splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'incoming'}>
-                        {users.filter(u => (splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'incoming') || u.id !== splitTabs[activeTab].payerId).map(u => (
-                          <option key={u.id} value={u.id}>{formatName(u.name)}</option>
-                        ))}
-                      </select>
+                    <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+                      <span className="tx-participant-label">Recebedor</span>
+                      <div className="tx-participant-select-control">
+                        {(() => {
+                          const selected = users.find(u => u.id === splitTabs[activeTab].receiverId);
+                          if (!selected) return null;
+                          return selected.picture ? (
+                            <img src={selected.picture} alt={selected.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
+                          ) : (
+                            <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selected.name?.[0]?.toUpperCase() || 'P'}</div>
+                          );
+                        })()}
+                        <select style={{ width: '100%', paddingLeft: '2.5rem' }} value={splitTabs[activeTab].receiverId} onChange={e => updateSplitTab(activeTab, 'receiverId', e.target.value)} required disabled={splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'incoming'}>
+                          {users.filter(u => (splitTabs[activeTab].isPersonal && splitTabs[activeTab].personalDirection === 'incoming') || u.id !== splitTabs[activeTab].payerId).map(u => (
+                            <option key={u.id} value={u.id}>{formatName(u.name)}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   )}
                 </div>

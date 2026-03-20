@@ -418,3 +418,55 @@
   padding: 1rem;
   background: var(--bg-color);
 }
+
+.tx-participant-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.tx-participant-select-control {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 481px) {
+  .tx-participants-input-row {
+    align-items: flex-end !important;
+  }
+
+  .tx-participants-input-row .swap-btn {
+    margin-bottom: 0.05rem;
+  }
+}
+
+/* Mobile: stack "Quem pagou?/Para quem?" and related inputs */
+@media (max-width: 480px) {
+  .tx-participants-input-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+  }
+
+  .tx-participant-select {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+  }
+
+  .tx-participants-input-row .swap-btn {
+    align-self: center;
+  }
+
+  .tx-date-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .tx-date-row > label {
+    width: 100% !important;
+    flex: 0 0 auto !important;
+  }
+}
