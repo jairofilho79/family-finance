@@ -26,3 +26,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - Objetivo inicial: nessa feature, vamos melhorar o visual da aplicação. Primeiro ponto: usar a logo e o nome family-finance no title da aplicação
 - [2026-03-20 08:17:14] user: Crie uma nova branch conforme AGENTS.md. Feature: melhorar o visual da aplicação; usar a logo e o nome family-finance no title.
 - [2026-03-20 08:17:18] assistant: Criei branch de feature para melhorar o visual e ajustar o title com logo e nome family-finance.
+- [2026-03-20 08:21:54] user: Corrigir branding: usar "Family Finance" em vez de "family-finance" (e em todos os locais).
