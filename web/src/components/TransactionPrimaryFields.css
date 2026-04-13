@@ -19,6 +19,7 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  width: 100%;
 }
 
 .shared-swap-btn {
@@ -79,6 +80,11 @@
   width: 100%;
 }
 
+.shared-participant-select,
+.tx-participant-select {
+  min-width: 0;
+}
+
 @media (min-width: 481px) {
   .shared-participants-input-row,
   .tx-participants-input-row {
@@ -91,7 +97,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .shared-participants-input-row,
   .tx-participants-input-row {
     flex-direction: column;
