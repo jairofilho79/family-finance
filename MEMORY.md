@@ -90,3 +90,11 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-04-13 09:55:59] assistant: Ajustei o componente compartilhado para reutilizar as classes originais do formulário novo (tx-*) e manter responsividade mobile, além de limpar duplicação no CSS do componente; build e lint ok.
 - [2026-04-13 10:06:33] user: Olha só, isso ficava um embaixo do outro e não em overflow lateral. Pode consertar?
 - [2026-04-13 10:06:33] assistant: Ajustei responsividade do componente compartilhado para empilhar participantes e datas em telas <=768px e evitar overflow lateral; build/lint ok.
+
+## Sessao 20260413-101458
+- Branch: `fix/chat-20260413-101458-fix-corrigir-data-da-compra-em-pagam`
+- Objetivo inicial: fix: corrigir data da compra em pagamentos parcela
+- [2026-04-13 10:15:01] user: Crie uma nova branch para corrigir a data da compra de pagamentos do tipo parcela.
+- [2026-04-13 10:15:01] assistant: Main atualizada; sessão iniciada via script em uma nova branch fix para corrigir a data da compra em pagamentos do tipo parcela.
+- [2026-04-13 10:27:37] user: Atualmente, os pagamentos do tipo parcela estão com a data da compra e a data de pagamento iguais. Porém elas devem ser assim: Data da compra: única para todas as parcelas. Data de Pagamento: 1 parcela é igual ao que o usuário colocou no campo data de pagamento; segunda parcela é a mesma da primeira parcela, com acréscimo de 1 mês e assim sucessivamente. Crie um plano para garantir que isso está sendo feito. E também para corrigir dados que não estejam nesse padrão.
+- [2026-04-13 10:27:37] assistant: Corrigi a criação de parcelas para manter a data da compra fixa e avançar apenas o vencimento mensal; adicionei scripts SQL de auditoria/backfill para corrigir parcelas pendentes fora do padrão e testes unitários para validar o schedule.
