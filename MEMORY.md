@@ -86,3 +86,5 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - Objetivo inicial: Feature: unificar componente de formulário (novo/editar pagamento)
 - [2026-04-13 09:39:42] assistant: Criei uma nova branch de feature a partir da main atualizada e movi para ela as alterações do componente compartilhado do formulário (NewTransaction/TransactionDetails + TransactionPrimaryFields).
 - [2026-04-13 09:42:24] assistant: Inspecionei stash@{0}/stash@{1}; eram duplicatas do patch staged na branch de feature (NewTransaction/TransactionDetails). Removi os dois stashes com segurança; agora não há stash pendente.
+- [2026-04-13 09:55:59] user: Você usou como base o formulário de adicionar novo pagamento? Ele tinha melhorias de colocar campos em colunas etc. Ou seja, tinha melhorias de responsividade em dispositivos mobile. Fui verificar agora e as melhorias tinham sumido. Tanto para editar quanto para adicionar novo pagamento.
+- [2026-04-13 09:55:59] assistant: Ajustei o componente compartilhado para reutilizar as classes originais do formulário novo (tx-*) e manter responsividade mobile, além de limpar duplicação no CSS do componente; build e lint ok.

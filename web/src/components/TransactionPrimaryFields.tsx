@@ -160,9 +160,9 @@ const TransactionPrimaryFields = ({
     })();
 
     return (
-      <div className="shared-participant-select" style={{ flex: 1, minWidth: 0 }}>
-        <span className="shared-participant-label">{label}</span>
-        <div className="shared-participant-select-control">
+      <div className="shared-participant-select tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
+        <span className="shared-participant-label tx-participant-label">{label}</span>
+        <div className="shared-participant-select-control tx-participant-select-control">
           {selectedMeta && renderAvatar(selectedMeta.name, selectedMeta.image, selectedMeta.initial)}
           <select
             style={{ width: "100%", paddingLeft: "2.5rem" }}
@@ -251,7 +251,7 @@ const TransactionPrimaryFields = ({
       </label>
 
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <div className="shared-participants-input-row">
+        <div className="shared-participants-input-row tx-participants-input-row">
           {participantMode === "personal-toggle" && isPersonal && personalDirection === "incoming"
             ? renderParticipantSelect({
                 label: "Pagador",
@@ -271,7 +271,7 @@ const TransactionPrimaryFields = ({
 
           <button
             type="button"
-            className="shared-swap-btn"
+            className="shared-swap-btn swap-btn"
             onClick={() => {
               if (participantMode === "personal-toggle" && isPersonal && onPersonalDirectionChange) {
                 onPersonalDirectionChange(personalDirection === "outgoing" ? "incoming" : "outgoing");
@@ -333,7 +333,7 @@ const TransactionPrimaryFields = ({
         )}
       </div>
 
-      <div className="shared-date-row">
+      <div className="shared-date-row tx-date-row">
         <label style={{ flex: 1 }}>
           Data da Compra
           <input
