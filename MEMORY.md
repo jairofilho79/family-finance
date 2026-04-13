@@ -89,3 +89,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-04-13 09:55:59] user: Você usou como base o formulário de adicionar novo pagamento? Ele tinha melhorias de colocar campos em colunas etc. Ou seja, tinha melhorias de responsividade em dispositivos mobile. Fui verificar agora e as melhorias tinham sumido. Tanto para editar quanto para adicionar novo pagamento.
 - [2026-04-13 09:55:59] assistant: Ajustei o componente compartilhado para reutilizar as classes originais do formulário novo (tx-*) e manter responsividade mobile, além de limpar duplicação no CSS do componente; build e lint ok.
 - [2026-04-13 10:06:33] user: Olha só, isso ficava um embaixo do outro e não em overflow lateral. Pode consertar?
+- [2026-04-13 10:06:33] assistant: Ajustei responsividade do componente compartilhado para empilhar participantes e datas em telas <=768px e evitar overflow lateral; build/lint ok.
