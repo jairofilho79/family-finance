@@ -96,3 +96,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - Objetivo inicial: fix: corrigir data da compra em pagamentos parcela
 - [2026-04-13 10:15:01] user: Crie uma nova branch para corrigir a data da compra de pagamentos do tipo parcela.
 - [2026-04-13 10:15:01] assistant: Main atualizada; sessão iniciada via script em uma nova branch fix para corrigir a data da compra em pagamentos do tipo parcela.
+- [2026-04-13 10:27:37] user: Atualmente, os pagamentos do tipo parcela estão com a data da compra e a data de pagamento iguais. Porém elas devem ser assim: Data da compra: única para todas as parcelas. Data de Pagamento: 1 parcela é igual ao que o usuário colocou no campo data de pagamento; segunda parcela é a mesma da primeira parcela, com acréscimo de 1 mês e assim sucessivamente. Crie um plano para garantir que isso está sendo feito. E também para corrigir dados que não estejam nesse padrão.
