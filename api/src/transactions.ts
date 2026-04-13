@@ -1,6 +1,5 @@
 import { Hono } from 'hono';
 import { authMiddleware } from './auth';
-import { buildInstallmentSchedule } from './installment-schedule';
 
 const app = new Hono<{ Bindings: { DB: D1Database }, Variables: { user: any } }>();
 
@@ -45,22 +44,14 @@ app.post('/', async (c) => {
         const installment_amount = Math.round(amount / total_installments); // Handle cents
 
         const statements: any[] = [];
-        // For installments:
-        // - `date` represents the purchase date and must be the same for all installments.
-        // - `due_date` represents when each installment is due and advances monthly.
-        const purchaseDate = new Date(date).getTime();
-        const schedule = buildInstallmentSchedule({
-            purchaseDateMs: purchaseDate,
-            firstDueDateMs: new Date(finalDueDate).getTime(),
-            totalInstallments: total_installments,
-        });
+        let current_date = new Date(date);
+        let current_due_date = new Date(finalDueDate);
 
-        for (const item of schedule) {
-            const i = item.installmentNumber;
+        for (let i = 1; i <= total_installments; i++) {
             const id = crypto.randomUUID();
-            // Advance due date month-by-month; keep purchase date fixed.
-            const tx_date = item.date;
-            const tx_due_date = item.dueDate;
+            // Add 1 month for each installment using standard logic
+            const tx_date = current_date.getTime();
+            const tx_due_date = current_due_date.getTime();
 
             statements.push(
                 db.prepare(
@@ -70,6 +61,9 @@ app.post('/', async (c) => {
                     id, `${description} (${i}/${total_installments})`, installment_amount, payer_id, receiver_id, created_by, created_at, tx_date, tx_due_date, type, group_id, i, total_installments, 'pending', isPersonalVal, details || null
                 )
             );
+
+            current_date.setMonth(current_date.getMonth() + 1);
+            current_due_date.setMonth(current_due_date.getMonth() + 1);
         }
 
         await db.batch(statements);
