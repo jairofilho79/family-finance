@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth, API_URL } from "../context/AuthContext";
 import { formatName } from "../utils/formatName";
-import { ArrowLeft, ArrowRightLeft, Check, Clock, Trash2, Loader2 } from "lucide-react";
+import { ArrowLeft, Check, Clock, Trash2, Loader2 } from "lucide-react";
 import Dialog from "../components/Dialog";
+import TransactionPrimaryFields from "../components/TransactionPrimaryFields";
 import "./TransactionDetails.css";
 
 interface UserOption {
@@ -253,105 +254,26 @@ const TransactionDetails = () => {
                 </div>
 
                 <form onSubmit={handleSave} className="tx-form details-form">
-                    <label>
-                        Descrição
-                        <input type="text" value={description} onChange={e => setDescription(e.target.value)} required />
-                    </label>
-
-                    <label>
-                        Valor
-                        <input type="text" inputMode="numeric" value={getDisplayAmount(amountInput)} onChange={handleAmountChange} required />
-                    </label>
-
-                    <div className="form-row" style={{ alignItems: "flex-end", gap: "0.5rem", flexWrap: "wrap", width: "100%" }}>
-                        <div style={{ flex: "1 1 calc(50% - 2rem)", minWidth: "120px" }}>
-                            <label style={{ marginBottom: "0.2rem" }}>Quem pagou?</label>
-                            <div style={{ position: 'relative' }}>
-                                {(() => {
-                                    const selectedPayer = payerId?.startsWith('pm_')
-                                        ? paymentMethods.find(pm => `pm_${pm.id}` === payerId)
-                                        : users.find(u => u.id === payerId);
-
-                                    if (!selectedPayer) return null;
-                                    const imgUrl = payerId?.startsWith('pm_') ? selectedPayer.image_url : selectedPayer.picture;
-
-                                    return imgUrl ? (
-                                        <img src={imgUrl} alt={selectedPayer.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                                    ) : (
-                                        <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>
-                                            {selectedPayer.name?.[0]?.toUpperCase() || 'P'}
-                                        </div>
-                                    );
-                                })()}
-                                <select
-                                    style={{ width: '100%', paddingLeft: '2.5rem' }}
-                                    value={payerId}
-                                    onChange={e => setPayerId(e.target.value)}
-                                    required
-                                >
-                                    {paymentMethods.map(pm => <option key={`pm_${pm.id}`} value={`pm_${pm.id}`}>{pm.name}</option>)}
-                                    {users.filter(u => u.id !== receiverId).map(u => <option key={u.id} value={u.id}>{formatName(u.name)}</option>)}
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="button" className="swap-btn" onClick={handleSwapUsers} title="Inverter">
-                            <ArrowRightLeft size={20} />
-                        </button>
-
-                        <div style={{ flex: "1 1 calc(50% - 2rem)", minWidth: "120px" }}>
-                            <label style={{ marginBottom: "0.2rem" }}>Para quem?</label>
-                            <div style={{ position: 'relative' }}>
-                                {(() => {
-                                    const selectedReceiver = receiverId?.startsWith('pm_')
-                                        ? paymentMethods.find(pm => `pm_${pm.id}` === receiverId)
-                                        : users.find(u => u.id === receiverId);
-
-                                    if (!selectedReceiver) return null;
-                                    const imgUrl = receiverId?.startsWith('pm_') ? selectedReceiver.image_url : selectedReceiver.picture;
-
-                                    return imgUrl ? (
-                                        <img src={imgUrl} alt={selectedReceiver.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                                    ) : (
-                                        <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>
-                                            {selectedReceiver.name?.[0]?.toUpperCase() || 'P'}
-                                        </div>
-                                    );
-                                })()}
-                                <select
-                                    style={{ width: '100%', paddingLeft: '2.5rem' }}
-                                    value={receiverId}
-                                    onChange={e => setReceiverId(e.target.value)}
-                                    required
-                                >
-                                    {paymentMethods.map(pm => <option key={`pm_${pm.id}`} value={`pm_${pm.id}`}>{pm.name}</option>)}
-                                    {users.filter(u => u.id !== payerId).map(u => <option key={u.id} value={u.id}>{formatName(u.name)}</option>)}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-                        <label style={{ flex: 1 }}>
-                            Data da Compra
-                            <input type="date" value={date} onChange={e => setDate(e.target.value)} required />
-                        </label>
-                        <label style={{ flex: 1 }}>
-                            Data para Pagar
-                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} required />
-                        </label>
-                    </div>
-
-                    <label>
-                        Detalhes / Notas (Opcional)
-                        <textarea
-                            placeholder="Informações adicionais da compra..."
-                            value={paymentDescription}
-                            onChange={e => setPaymentDescription(e.target.value)}
-                            rows={3}
-                            style={{ padding: "0.75rem", borderRadius: "10px", border: "1px solid var(--border-color)", background: "var(--input-bg)", color: "var(--text-color)", fontSize: "1rem", minHeight: "80px", fontFamily: "inherit", resize: "vertical" }}
-                        />
-                    </label>
+                    <TransactionPrimaryFields
+                        description={description}
+                        onDescriptionChange={setDescription}
+                        details={paymentDescription}
+                        onDetailsChange={setPaymentDescription}
+                        amountDisplay={getDisplayAmount(amountInput)}
+                        onAmountChange={handleAmountChange}
+                        payerId={payerId}
+                        onPayerIdChange={setPayerId}
+                        receiverId={receiverId}
+                        onReceiverIdChange={setReceiverId}
+                        onSwapParticipants={handleSwapUsers}
+                        date={date}
+                        onDateChange={setDate}
+                        dueDate={dueDate}
+                        onDueDateChange={setDueDate}
+                        users={users}
+                        paymentMethods={paymentMethods}
+                        participantMode="mixed-options"
+                    />
 
                     <button type="submit" disabled={isSubmitting} className="submit-btn full-width" style={{ marginTop: "1rem" }}>
                         {isSubmitting ? "Salvando..." : "Salvar Alterações"}

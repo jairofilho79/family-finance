@@ -4,6 +4,7 @@ import { useAuth, API_URL } from "../context/AuthContext";
 import { formatName } from "../utils/formatName";
 import { ArrowRightLeft, Scissors, Plus, Minus } from "lucide-react";
 import Dialog from "../components/Dialog";
+import TransactionPrimaryFields from "../components/TransactionPrimaryFields";
 import "./NewTransaction.css";
 
 interface UserOption {
@@ -435,220 +436,75 @@ const NewTransaction = () => {
       )}
 
       <form onSubmit={handleSubmit} className="tx-form">
-        <label>
-          Descrição
-          <input
-            type="text"
-            placeholder="Ex: Supermercado"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </label>
+        {isSplitMode && (
+          <>
+            <label>
+              Descrição
+              <input
+                type="text"
+                placeholder="Ex: Supermercado"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+            </label>
 
-        <label>
-          Detalhes / Notas (Opcional)
-          <textarea
-            placeholder="Informações adicionais da compra..."
-            value={details}
-            onChange={(e) => setDetails(e.target.value)}
-            rows={3}
-            style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)', fontFamily: 'inherit', resize: 'vertical' }}
-          />
-        </label>
+            <label>
+              Detalhes / Notas (Opcional)
+              <textarea
+                placeholder="Informações adicionais da compra..."
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                rows={3}
+                style={{ padding: '0.75rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-primary)', fontFamily: 'inherit', resize: 'vertical' }}
+              />
+            </label>
 
-        <label>
-          Valor
-          <input
-            type="text"
-            inputMode="numeric"
-            placeholder="R$ 0,00"
-            value={getDisplayAmount()}
-            onChange={handleAmountChange}
-            required
-          />
-        </label>
+            <label>
+              Valor
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="R$ 0,00"
+                value={getDisplayAmount()}
+                onChange={handleAmountChange}
+                required
+              />
+            </label>
+          </>
+        )}
 
         {!isSplitMode ? (
           <>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div className="tx-participants-input-row" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
-                {isPersonal && personalDirection === 'incoming' ? (
-                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
-                    <span className="tx-participant-label">Pagador</span>
-                    <div className="tx-participant-select-control">
-                      {(() => {
-                        const selectedPM = paymentMethods.find(pm => pm.id === paymentMethodId);
-                        if (!selectedPM) return null;
-                        return selectedPM.image_url ? (
-                          <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select
-                        style={{ width: '100%', paddingLeft: '2.5rem' }}
-                        value={paymentMethodId}
-                        onChange={(e) => setPaymentMethodId(e.target.value)}
-                        required
-                      >
-                        {paymentMethods.map((pm) => (
-                          <option key={pm.id} value={pm.id}>
-                            {pm.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
-                    <span className="tx-participant-label">Pagador</span>
-                    <div className="tx-participant-select-control">
-                      {(() => {
-                        const selectedPayer = users.find(u => u.id === payerId);
-                        if (!selectedPayer) return null;
-                        return selectedPayer.picture ? (
-                          <img src={selectedPayer.picture} alt={selectedPayer.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPayer.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select
-                        style={{ width: '100%', paddingLeft: '2.5rem' }}
-                        value={payerId}
-                        onChange={(e) => setPayerId(e.target.value)}
-                        required
-                        disabled={isPersonal && personalDirection === 'outgoing'}
-                      >
-                        {users.filter(u => (isPersonal && personalDirection === 'outgoing') || u.id !== receiverId).map((u) => (
-                          <option key={u.id} value={u.id}>
-                            {formatName(u.name)}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                )}
-
-                <button
-                  type="button"
-                  className="swap-btn"
-                  onClick={handleSwapUsers}
-                  title="Inverter pagador e recebedor"
-                >
-                  <ArrowRightLeft size={20} />
-                </button>
-
-                {isPersonal && personalDirection === 'outgoing' ? (
-                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
-                    <span className="tx-participant-label">Recebedor</span>
-                    <div className="tx-participant-select-control">
-                      {(() => {
-                        const selectedPM = paymentMethods.find(pm => pm.id === paymentMethodId);
-                        if (!selectedPM) return null;
-                        return selectedPM.image_url ? (
-                          <img src={selectedPM.image_url} alt={selectedPM.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedPM.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select
-                        style={{ width: '100%', paddingLeft: '2.5rem' }}
-                        value={paymentMethodId}
-                        onChange={(e) => setPaymentMethodId(e.target.value)}
-                        required
-                      >
-                        {paymentMethods.map((pm) => (
-                          <option key={pm.id} value={pm.id}>
-                            {pm.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="tx-participant-select" style={{ flex: 1, minWidth: 0 }}>
-                    <span className="tx-participant-label">Recebedor</span>
-                    <div className="tx-participant-select-control">
-                      {(() => {
-                        const selectedReceiver = users.find(u => u.id === receiverId);
-                        if (!selectedReceiver) return null;
-                        return selectedReceiver.picture ? (
-                          <img src={selectedReceiver.picture} alt={selectedReceiver.name} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', objectFit: 'cover' }} referrerPolicy="no-referrer" />
-                        ) : (
-                          <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', borderRadius: '50%', pointerEvents: 'none', backgroundColor: 'var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 'bold', color: 'var(--text-secondary)' }}>{selectedReceiver.name?.[0]?.toUpperCase() || 'P'}</div>
-                        );
-                      })()}
-                      <select
-                        style={{ width: '100%', paddingLeft: '2.5rem' }}
-                        value={receiverId}
-                        onChange={(e) => setReceiverId(e.target.value)}
-                        required
-                        disabled={isPersonal && personalDirection === 'incoming'}
-                      >
-                        {users.filter(u => (isPersonal && personalDirection === 'incoming') || u.id !== payerId).map((u) => (
-                          <option key={u.id} value={u.id}>
-                            {formatName(u.name)}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.4rem' }}>
-                <span style={{ flex: 1 }}></span>
-                {!isPersonal && <span style={{ width: '46px', flexShrink: 0 }}></span>}
-                <label style={{ flex: 1, margin: 0, fontWeight: 'normal', fontSize: '0.85em', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}>
-                  <input
-                    type="checkbox"
-                    checked={isPersonal}
-                    onChange={(e) => {
-                      setIsPersonal(e.target.checked);
-                      if (e.target.checked) {
-                        setPayerId(user?.id || "");
-                        setPersonalDirection('outgoing');
-                      }
-                    }}
-                  />
-                  Pessoal
-                  <span
-                    className="info-icon"
-                    onClick={(e) => { e.preventDefault(); setShowInfoDialog(true); }}
-                    style={{ display: 'inline-flex', width: '16px', height: '16px', borderRadius: '50%', background: 'var(--border-color)', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)', fontSize: '10px', fontWeight: 'bold' }}
-                  >?</span>
-                </label>
-              </div>
-            </div>
-
-            <div className="tx-date-row" style={{ display: 'flex', gap: '1rem', width: '100%' }}>
-              <label style={{ flex: 1 }}>
-                Data da Compra
-                <input
-                  type="date"
-                  value={date}
-                  onChange={(e) => {
-                    const prevDate = date;
-                    const newDate = e.target.value;
-                    setDate(newDate);
-                    if (dueDate === prevDate) {
-                      setDueDate(newDate);
-                    }
-                  }}
-                  required
-                />
-              </label>
-              <label style={{ flex: 1 }}>
-                Data para Pagar
-                <input
-                  type="date"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  required
-                />
-              </label>
-            </div>
+            <TransactionPrimaryFields
+              description={description}
+              onDescriptionChange={setDescription}
+              details={details}
+              onDetailsChange={setDetails}
+              amountDisplay={getDisplayAmount()}
+              onAmountChange={handleAmountChange}
+              payerId={payerId}
+              onPayerIdChange={setPayerId}
+              receiverId={receiverId}
+              onReceiverIdChange={setReceiverId}
+              onSwapParticipants={handleSwapUsers}
+              date={date}
+              onDateChange={setDate}
+              dueDate={dueDate}
+              onDueDateChange={setDueDate}
+              users={users}
+              paymentMethods={paymentMethods}
+              participantMode="personal-toggle"
+              isPersonal={isPersonal}
+              onIsPersonalChange={setIsPersonal}
+              personalDirection={personalDirection}
+              onPersonalDirectionChange={setPersonalDirection}
+              paymentMethodId={paymentMethodId}
+              onPaymentMethodIdChange={setPaymentMethodId}
+              currentUserId={user?.id || ""}
+              onOpenPersonalInfo={() => setShowInfoDialog(true)}
+              syncDueDateOnPurchaseDateChange
+            />
 
             <label>
               Tipo

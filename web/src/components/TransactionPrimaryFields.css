@@ -1,0 +1,228 @@
+.shared-participant-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.shared-participant-select-control {
+  position: relative;
+  width: 100%;
+}
+
+.shared-participants-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.shared-swap-btn {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  height: 48px;
+}
+
+.shared-swap-btn:hover {
+  background-color: var(--surface-color);
+  color: var(--accent-text-color);
+  border-color: var(--primary-color);
+}
+
+.shared-personal-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.shared-personal-toggle {
+  flex: 1;
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.85em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.shared-info-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--border-color);
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.shared-date-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 481px) {
+  .shared-participants-input-row {
+    align-items: flex-end;
+  }
+
+  .shared-participants-input-row .shared-swap-btn {
+    margin-bottom: 0.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .shared-participants-input-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .shared-participant-select {
+    width: 100%;
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  .shared-participants-input-row .shared-swap-btn {
+    align-self: center;
+  }
+
+  .shared-date-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .shared-date-row > label {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
+.shared-participant-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.shared-participant-select-control {
+  position: relative;
+  width: 100%;
+}
+
+.shared-participants-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.shared-swap-btn {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  height: 48px;
+}
+
+.shared-swap-btn:hover {
+  background-color: var(--surface-color);
+  color: var(--accent-text-color);
+  border-color: var(--primary-color);
+}
+
+.shared-personal-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.shared-personal-toggle {
+  flex: 1;
+  margin: 0;
+  font-weight: normal;
+  font-size: 0.85em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.shared-info-icon {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--border-color);
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.shared-date-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 481px) {
+  .shared-participants-input-row {
+    align-items: flex-end;
+  }
+
+  .shared-participants-input-row .shared-swap-btn {
+    margin-bottom: 0.05rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .shared-participants-input-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .shared-participant-select {
+    width: 100%;
+    flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  .shared-participants-input-row .shared-swap-btn {
+    align-self: center;
+  }
+
+  .shared-date-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .shared-date-row > label {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
