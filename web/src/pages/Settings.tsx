@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth, API_URL } from "../context/AuthContext";
 import { useConfig } from "../context/ConfigContext";
 import { formatName } from "../utils/formatName";
+import { isSupportedPixKey, normalizePixKey } from "../utils/pixPayload";
 import { LogOut, Link } from "lucide-react";
 import Dialog from "../components/Dialog";
 import "./Settings.css";
@@ -24,6 +25,18 @@ const Settings = () => {
   const closeDialog = () => setDialogState(prev => ({ ...prev, isOpen: false }));
 
   const savePixKey = async () => {
+    const normalizedPixKey = normalizePixKey(pixKey);
+    const hasPixKey = normalizedPixKey.length > 0;
+    if (hasPixKey && !isSupportedPixKey(pixKey)) {
+      setDialogState({
+        isOpen: true,
+        type: "alert",
+        title: "Formato inválido",
+        message: "Informe uma chave Pix válida: celular, CPF, e-mail ou chave aleatória."
+      });
+      return;
+    }
+
     setSavingPix(true);
     try {
       const res = await fetch(`${API_URL}/users/me/pix`, {
@@ -32,7 +45,7 @@ const Settings = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ pix_key: pixKey }),
+        body: JSON.stringify({ pix_key: normalizedPixKey || null }),
       });
 
       if (res.ok) {
@@ -45,6 +58,7 @@ const Settings = () => {
           title: "Chave Salva",
           message: "A sua Chave Pix foi atualizada com sucesso."
         });
+        setPixKey(normalizedPixKey);
       } else {
         setDialogState({
           isOpen: true,

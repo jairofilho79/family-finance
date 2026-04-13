@@ -7,7 +7,7 @@ import { ArrowLeft, Copy, CheckCircle2 } from "lucide-react";
 import Dialog from "../components/Dialog";
 import "./PayPending.css";
 
-import { generatePixPayload } from "../utils/pixPayload";
+import { generatePixPayload, isSupportedPixKey } from "../utils/pixPayload";
 
 interface Transaction {
     id: string;
@@ -151,6 +151,18 @@ const PayPending = () => {
                 message: iOweOverall
                     ? "Este usuário não possui chave Pix configurada."
                     : "Você não possui uma chave Pix configurada. Crie uma na guia de Ajustes."
+            });
+            return;
+        }
+
+        if (!isSupportedPixKey(targetPixKey)) {
+            setDialogState({
+                isOpen: true,
+                type: "alert",
+                title: "Chave Pix inválida",
+                message: iOweOverall
+                    ? "A chave Pix do recebedor está em formato inválido."
+                    : "Sua chave Pix está em formato inválido. Atualize em Ajustes."
             });
             return;
         }
