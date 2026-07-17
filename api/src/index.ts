@@ -77,9 +77,8 @@ export default {
 			}
 
 			const nextTimestamp = nextMonth.getTime();
-			const purchaseDate = new Date(nextMonth);
-			purchaseDate.setDate(1);
-			const purchaseTimestamp = purchaseDate.getTime();
+			// ponytail: keep original subscription purchase date so "compras recentes" stays meaningful
+			const purchaseTimestamp = Number(sub.date) || nextTimestamp;
 
 			const id = crypto.randomUUID();
 
@@ -95,8 +94,8 @@ export default {
 					sub.receiver_id,
 					sub.created_by,
 					now,        // created_at is always now
-					purchaseTimestamp, // date = purchase date (always day 01 of charge month)
-					nextTimestamp, // due_date = payment date (existing logic)
+					purchaseTimestamp, // date = first subscription purchase date
+					nextTimestamp, // due_date = payment date (+1 month each charge)
 					'single',
 					subId,
 					'pending',

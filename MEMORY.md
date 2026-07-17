@@ -98,3 +98,9 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - [2026-04-13 10:15:01] assistant: Main atualizada; sessão iniciada via script em uma nova branch fix para corrigir a data da compra em pagamentos do tipo parcela.
 - [2026-04-13 10:27:37] user: Atualmente, os pagamentos do tipo parcela estão com a data da compra e a data de pagamento iguais. Porém elas devem ser assim: Data da compra: única para todas as parcelas. Data de Pagamento: 1 parcela é igual ao que o usuário colocou no campo data de pagamento; segunda parcela é a mesma da primeira parcela, com acréscimo de 1 mês e assim sucessivamente. Crie um plano para garantir que isso está sendo feito. E também para corrigir dados que não estejam nesse padrão.
 - [2026-04-13 10:27:37] assistant: Corrigi a criação de parcelas para manter a data da compra fixa e avançar apenas o vencimento mensal; adicionei scripts SQL de auditoria/backfill para corrigir parcelas pendentes fora do padrão e testes unitários para validar o schedule.
+
+## Sessao 20260717-152800
+- Branch: `cursor/fix-recurring-purchase-date-e898`
+- Objetivo inicial: Corrigir data de compra reiniciada em Assinatura/Parcelado (ordenação compras recentes)
+- [2026-07-17 15:29:55] user: Problema: Assinatura (e parcelado) reiniciam data da compra a cada mês, quebrando ordenação por compras recentes. Devem manter data da primeira compra e só atualizar data de pagamento.
+- [2026-07-17 15:30:13] assistant: Confirmado: cron de assinatura gravava date no dia 01 do mês da cobrança; parcelas avançavam date junto com due_date. Corrigi ambos para manter date da 1ª compra e só avançar due_date; migração 0010 faz backfill dos registros existentes.
