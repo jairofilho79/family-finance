@@ -44,13 +44,12 @@ app.post('/', async (c) => {
         const installment_amount = Math.round(amount / total_installments); // Handle cents
 
         const statements: any[] = [];
-        let current_date = new Date(date);
+        // ponytail: purchase date is fixed; only due_date advances monthly
+        const purchaseDate = new Date(date).getTime();
         let current_due_date = new Date(finalDueDate);
 
         for (let i = 1; i <= total_installments; i++) {
             const id = crypto.randomUUID();
-            // Add 1 month for each installment using standard logic
-            const tx_date = current_date.getTime();
             const tx_due_date = current_due_date.getTime();
 
             statements.push(
@@ -58,11 +57,10 @@ app.post('/', async (c) => {
                     `INSERT INTO transactions (id, description, amount, payer_id, receiver_id, created_by, created_at, date, due_date, type, group_id, installment_number, total_installments, status, is_personal, details)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
                 ).bind(
-                    id, `${description} (${i}/${total_installments})`, installment_amount, payer_id, receiver_id, created_by, created_at, tx_date, tx_due_date, type, group_id, i, total_installments, 'pending', isPersonalVal, details || null
+                    id, `${description} (${i}/${total_installments})`, installment_amount, payer_id, receiver_id, created_by, created_at, purchaseDate, tx_due_date, type, group_id, i, total_installments, 'pending', isPersonalVal, details || null
                 )
             );
 
-            current_date.setMonth(current_date.getMonth() + 1);
             current_due_date.setMonth(current_due_date.getMonth() + 1);
         }
 
