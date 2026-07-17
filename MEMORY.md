@@ -104,3 +104,4 @@ Registro cronologico de sessoes e trocas de mensagens deste projeto.
 - Objetivo inicial: Corrigir data de compra reiniciada em Assinatura/Parcelado (ordenação compras recentes)
 - [2026-07-17 15:29:55] user: Problema: Assinatura (e parcelado) reiniciam data da compra a cada mês, quebrando ordenação por compras recentes. Devem manter data da primeira compra e só atualizar data de pagamento.
 - [2026-07-17 15:30:13] assistant: Confirmado: cron de assinatura gravava date no dia 01 do mês da cobrança; parcelas avançavam date junto com due_date. Corrigi ambos para manter date da 1ª compra e só avançar due_date; migração 0010 faz backfill dos registros existentes.
+- [2026-07-17 15:33:29] assistant: Mergeei PR #12 na main, apliquei migration 0010 no D1 remoto e fiz wrangler deploy da API (Version 3915e2de).
