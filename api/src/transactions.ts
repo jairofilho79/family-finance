@@ -136,8 +136,9 @@ app.post('/bulk-pay', async (c) => {
     const historyInserts: any[] = [];
 
     txs.results?.forEach((t: any) => {
-        if (t.payer_id !== user.sub) peersToNotify.add(t.payer_id);
-        if (t.receiver_id !== user.sub) peersToNotify.add(t.receiver_id);
+        // pm_* = forma de pagamento pessoal — não é user_id (FK em notifications)
+        if (t.payer_id !== user.sub && !String(t.payer_id).startsWith('pm_')) peersToNotify.add(t.payer_id);
+        if (t.receiver_id !== user.sub && !String(t.receiver_id).startsWith('pm_')) peersToNotify.add(t.receiver_id);
 
         if (t.status !== 'paid') {
             historyInserts.push(

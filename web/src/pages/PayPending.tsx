@@ -58,19 +58,30 @@ const PayPending = () => {
         setDialogState(prev => ({ ...prev, isOpen: false }));
     };
 
+    const isPersonalPeer = !!peerId?.startsWith("pm_");
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [txRes, usersRes] = await Promise.all([
+                const [txRes, usersRes, pmRes] = await Promise.all([
                     fetch(`${API_URL}/transactions`, { headers: { Authorization: `Bearer ${token}` } }),
                     fetch(`${API_URL}/users`, { headers: { Authorization: `Bearer ${token}` } }),
+                    fetch(`${API_URL}/payment-methods`, { headers: { Authorization: `Bearer ${token}` } }),
                 ]);
 
                 if (txRes.ok && usersRes.ok) {
                     const txData = await txRes.json();
                     const usersData = await usersRes.json();
 
-                    const peer = usersData.users.find((u: any) => u.id === peerId);
+                    let peer = usersData.users.find((u: any) => u.id === peerId);
+                    // Contas pessoais usam receiver/payer = pm_<paymentMethodId>
+                    if (!peer && peerId?.startsWith("pm_") && pmRes.ok) {
+                        const pmData = await pmRes.json();
+                        const pm = pmData.payment_methods.find((m: any) => `pm_${m.id}` === peerId);
+                        if (pm) {
+                            peer = { id: peerId, name: pm.name, picture: pm.image_url || "" };
+                        }
+                    }
                     if (peer) setPeerInfo(peer);
 
                     // Get pending transactions between me and the peer
@@ -94,8 +105,22 @@ const PayPending = () => {
         }
     }, [user, token, peerId]);
 
-    if (loading || !user || !peerInfo) {
+    if (loading || !user) {
         return <div className="loading-state">Carregando pendências...</div>;
+    }
+
+    if (!peerInfo) {
+        return (
+            <div className="paypending-container fade-in">
+                <header className="paypending-header">
+                    <button className="back-btn" onClick={() => navigate(-1)}>
+                        <ArrowLeft size={24} />
+                    </button>
+                    <h2>Pagamento</h2>
+                </header>
+                <p className="empty-sub">Não foi possível carregar este contato ou forma de pagamento.</p>
+            </div>
+        );
     }
 
     // Helper variables for filtering dates
@@ -246,7 +271,7 @@ const PayPending = () => {
                 <img src={peerInfo.picture} alt={peerInfo.name} referrerPolicy="no-referrer" />
                 <div>
                     <h3>{formatName(peerInfo.name)}</h3>
-                    <p>Acerto de contas</p>
+                    <p>{isPersonalPeer ? "Conta pessoal" : "Acerto de contas"}</p>
                 </div>
             </div>
 
@@ -278,10 +303,12 @@ const PayPending = () => {
 
             {iOweOverall && (
                 <div className="payment-actions">
-                    <button className="btn-pix" onClick={copyPixData}>
-                        {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
-                        {copied ? "Chave Pix Copiada!" : "Copiar Chave Pix"}
-                    </button>
+                    {!isPersonalPeer && (
+                        <button className="btn-pix" onClick={copyPixData}>
+                            {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
+                            {copied ? "Chave Pix Copiada!" : "Copiar Chave Pix"}
+                        </button>
+                    )}
 
                     <button
                         className="btn-confirm-pay"
@@ -295,10 +322,12 @@ const PayPending = () => {
 
             {!iOweOverall && activeTransactions.length > 0 && netBalance > 0 && (
                 <div className="payment-actions">
-                    <button className="btn-pix" onClick={copyPixData}>
-                        {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
-                        {copied ? "Chave Pix Copiada!" : "Copiar Minha Chave Pix"}
-                    </button>
+                    {!isPersonalPeer && (
+                        <button className="btn-pix" onClick={copyPixData}>
+                            {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
+                            {copied ? "Chave Pix Copiada!" : "Copiar Minha Chave Pix"}
+                        </button>
+                    )}
 
                     <button
                         className="btn-confirm-pay receive-mode"
